@@ -2,6 +2,7 @@ package br.com.uniriotec.jogodavelha.model;
 
 /**
  * Created by PedroLZ on 29/09/2015.
+ * -w- ahazou
  */
 public class Jogador {
 	private String nome;
