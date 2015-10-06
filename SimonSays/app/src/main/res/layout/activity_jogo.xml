@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+	<TableRow android:layout_width="match_parent" android:layout_weight="45">
+
+		<Button android:id="@+id/botao_vermelho"
+		        android:layout_height="match_parent"
+		        android:layout_weight="1"
+		        android:layout_width="0dp"
+		        android:background="#D00"
+		        android:enabled="false"
+		        android:onClick="onClickColorButton"/>
+
+		<Button android:id="@+id/botao_azul"
+		        android:layout_height="match_parent"
+		        android:layout_weight="1"
+		        android:layout_width="0dp"
+		        android:background="#00D"
+		        android:enabled="false"
+		        android:onClick="onClickColorButton"/>
+	</TableRow>
+
+	<TableRow android:layout_width="match_parent" android:layout_weight="45">
+
+		<Button android:id="@+id/botao_verde"
+		        android:layout_height="match_parent"
+		        android:layout_weight="1"
+		        android:layout_width="0dp"
+		        android:background="#0D0"
+		        android:enabled="false"
+		        android:onClick="onClickColorButton"/>
+
+		<Button android:id="@+id/botao_amarelo"
+		        android:layout_height="match_parent"
+		        android:layout_weight="1"
+		        android:layout_width="0dp"
+		        android:background="#DD0"
+		        android:enabled="false"
+		        android:onClick="onClickColorButton"/>
+	</TableRow>
+
+
+	<TableRow android:layout_width="match_parent" android:layout_weight="10">
+
+		<!-- layout_weight define a largura total, já que pelo TableRow não ter largura fixa, o match_parent não funciona -->
+		<Button android:id="@+id/botao_start"
+				android:layout_weight="1"
+		        android:layout_height="match_parent"
+		        android:background="#123"
+		        android:text="PLAY"
+		        android:textColor="#FFF"
+		        android:textStyle="bold"
+		        android:textSize="30dp"
+		        android:onClick="onClickPlay"/>
+
+	</TableRow>
+</TableLayout>
