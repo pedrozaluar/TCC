@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,7 +15,11 @@ import java.util.Random;
 
 public class JogoActivity extends Activity {
 
+	public static final int MILLISEGUNDOS_PISCAR_BOTAO = 1000;
+	public static final int MILLISEGUNDOS_ESPERAR_PISCAR_BOTAO = 500;
+
 	private Button[] botoes;
+	private Button botaoPlay;
 	private List<Button> listaBotoesSorteados;
 	private int proximoIndiceBotaoVerificar;
 
@@ -29,6 +34,7 @@ public class JogoActivity extends Activity {
 		super.onStart();
 		this.listaBotoesSorteados = new ArrayList<Button>();
 		guardarArrayBotoes();
+		botaoPlay = (Button) findViewById(R.id.botao_play);
 	}
 
 	private void guardarArrayBotoes() {
@@ -54,15 +60,12 @@ public class JogoActivity extends Activity {
 			mostrarMensagemResultado();
 			habilitarBotoes(false);
 			listaBotoesSorteados.clear();
-			Button start = (Button) findViewById(R.id.botao_start);
-			start.setEnabled(true);
+			botaoPlay.setEnabled(true);
 		}
 	}
 
 	public void onClickPlay(View view) {
-		Button botaoPlay = (Button) view;
 		botaoPlay.setEnabled(false);
-
 		iniciarNovaRodada();
 	}
 
@@ -71,7 +74,6 @@ public class JogoActivity extends Activity {
 		adicionarNovoBotaoSorteadoNaLista();
 		piscarBotoesNaTela();
 		proximoIndiceBotaoVerificar = 0;
-		habilitarBotoes(true);
 	}
 
 	private void habilitarBotoes(boolean habilitar) {
@@ -90,28 +92,56 @@ public class JogoActivity extends Activity {
 	}
 
 	private void piscarBotoesNaTela() {
-		for(Button botao : listaBotoesSorteados) {
-			piscarBotao(botao);
-		}
+		piscarBotoesSorteados(0);
 	}
 
-	private void piscarBotao(Button botao) {
-/*		botao.setText("X");
-		//espera
-		SystemClock.sleep(3000);
-		try {
-			new Thread().sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		botao.setText("");
-*/	}
+	/**
+	 * Pisca (acende por um tempo depois apaga)* os botoes a partir do indice "indiceBotaoInicioPiscar" na lista "listaBotoesSorteados"
+	 * *Acender é colocar uma cor mais clara, apagar é voltar à cor original do botão
+	 * @param indiceBotaoInicioPiscar
+	 */
+	private void piscarBotoesSorteados(final int indiceBotaoInicioPiscar) {
+
+		// marca o botão para acender ao final do método
+		listaBotoesSorteados.get(indiceBotaoInicioPiscar).setSelected(true);
+
+		// chama método assíncrono para executar daqui a X milissegundos para apagar o botão e acender os próximos botões
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				// marca o botão para "apagar" ao final do método
+				listaBotoesSorteados.get(indiceBotaoInicioPiscar).setSelected(false);
+
+				// Continua piscando os próximos botões ou, se terminou, habilita para o jogador fazer a jogada
+				int proximoIndiceBotaoPiscar = indiceBotaoInicioPiscar + 1;
+				boolean temMaisBotoesParaPiscar = proximoIndiceBotaoPiscar < listaBotoesSorteados.size();
+
+				if (temMaisBotoesParaPiscar) {
+					esperarParaPiscar(proximoIndiceBotaoPiscar);
+				} else {
+					habilitarBotoes(true);
+				}
+			}
+		}, MILLISEGUNDOS_PISCAR_BOTAO);
+	}
+
+	/**
+	 * Espera um tempo para piscar o próximo botão da lista
+	 * @param indiceBotaoInicioPiscar
+	 */
+	private void esperarParaPiscar(final int indiceBotaoInicioPiscar) {
+		new Handler().postDelayed(new Runnable() {
+			public void run() {
+				piscarBotoesSorteados(indiceBotaoInicioPiscar);
+			}
+		}, MILLISEGUNDOS_ESPERAR_PISCAR_BOTAO);
+	}
 
 	private void mostrarMensagemResultado() {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(JogoActivity.this);
 		builder.setTitle("Você perdeu =(");
-		builder.setMessage("Maior sequência feita: " + (listaBotoesSorteados.size()-1) + " cores!");
+		builder.setMessage("Maior sequência feita: " + (listaBotoesSorteados.size()-1) + " cor(es)!");
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {

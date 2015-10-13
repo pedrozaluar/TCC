@@ -10,7 +10,7 @@
 		        android:layout_height="match_parent"
 		        android:layout_weight="1"
 		        android:layout_width="0dp"
-		        android:background="#D00"
+		        android:background="@drawable/botao_vermelho"
 		        android:enabled="false"
 		        android:onClick="onClickColorButton"/>
 
@@ -18,7 +18,7 @@
 		        android:layout_height="match_parent"
 		        android:layout_weight="1"
 		        android:layout_width="0dp"
-		        android:background="#00D"
+		        android:background="@drawable/botao_azul"
 		        android:enabled="false"
 		        android:onClick="onClickColorButton"/>
 	</TableRow>
@@ -29,7 +29,7 @@
 		        android:layout_height="match_parent"
 		        android:layout_weight="1"
 		        android:layout_width="0dp"
-		        android:background="#0D0"
+		        android:background="@drawable/botao_verde"
 		        android:enabled="false"
 		        android:onClick="onClickColorButton"/>
 
@@ -37,7 +37,7 @@
 		        android:layout_height="match_parent"
 		        android:layout_weight="1"
 		        android:layout_width="0dp"
-		        android:background="#DD0"
+		        android:background="@drawable/botao_amarelo"
 		        android:enabled="false"
 		        android:onClick="onClickColorButton"/>
 	</TableRow>
@@ -46,10 +46,10 @@
 	<TableRow android:layout_width="match_parent" android:layout_weight="10">
 
 		<!-- layout_weight define a largura total, já que pelo TableRow não ter largura fixa, o match_parent não funciona -->
-		<Button android:id="@+id/botao_start"
+		<Button android:id="@+id/botao_play"
 				android:layout_weight="1"
 		        android:layout_height="match_parent"
-		        android:background="#123"
+		        android:background="@drawable/botao_play"
 		        android:text="PLAY"
 		        android:textColor="#FFF"
 		        android:textStyle="bold"
