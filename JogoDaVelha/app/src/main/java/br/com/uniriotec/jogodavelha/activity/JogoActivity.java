@@ -11,7 +11,9 @@ import android.widget.TextView;
 import br.com.uniriotec.jogodavelha.R;
 import br.com.uniriotec.jogodavelha.model.Jogador;
 
-
+/**
+ * Classe responsável por apresentar a tela do tabuleiro do jogo da velha e implementar suas funcionalidades
+ */
 public class JogoActivity extends ActionBarActivity {
 
 	public static final int TAMANHO_TABELA = 3;
@@ -21,22 +23,38 @@ public class JogoActivity extends ActionBarActivity {
 	private Jogador jogadorCorrente;
 	private Button matrizBotoes[][];
 
+	/**
+	 * Além de chamar o método onCreate da classe pai, indica o XML referente à tela que esta
+	 * classe irá chamar.
+	 * Obs.1: Este método é chamado ao iniciar o aplicativo.
+	 * Obs.2: Método criado automaticamente pela IDE (Android Studio).
+	 * @param savedInstanceState
+	 */
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jogo);
     }
 
+	/**
+	 * Além de chamar o método onStart da classe pai, este método inicializa o jogo,
+	 * instanciando variáveis que usaremos e apresentando informações na tela.
+	 * PS: Este método é chamado após o onCreate, quando a classe já reconhece o XML referente à tela desta activity.
+	 */
 	@Override
 	protected void onStart() {
 		super.onStart();
 		jogador1 = new Jogador("Jogador 1", "X");
 		jogador2 = new Jogador("Jogador 2", "O");
+		guardarMatrizBotoes();
 		jogadorCorrente = jogador1;
 		mostrarJogadorCorrente();
-		guardarMatrizBotoes();
 	}
 
+	/**
+	 * Guarda os botões da tela em uma matriz ao início da execução, para não precisarmos ficar
+	 * "procurando" a referência dos botões no xml toda hora.
+	 */
 	private void guardarMatrizBotoes() {
 		matrizBotoes = new Button[TAMANHO_TABELA][TAMANHO_TABELA];
 		matrizBotoes[0][0] = (Button) findViewById(R.id.buttonLine1Col1);
@@ -52,6 +70,10 @@ public class JogoActivity extends ActionBarActivity {
 		matrizBotoes[2][2] = (Button) findViewById(R.id.buttonLine3Col3);
 	}
 
+	/**
+	 * Este método será chamado ao clicar em qualquer um dos botões do tabuleiro do jogo
+	 * @param view - botão clicado
+	 */
 	public void onClickButton(View view) {
 		Button botaoClicado = (Button) view;
 		botaoClicado.setText(jogadorCorrente.getSimbolo());
@@ -67,6 +89,11 @@ public class JogoActivity extends ActionBarActivity {
 		}
 	}
 
+	/**
+	 * Método que identifica se o jogador que acabou de executar a jogada venceu o jogo
+	 * @return true, se existe uma sequência de três símbolos iguais na vertical, horizontal ou
+	 * diagonal, senão false.
+	 */
 	private boolean jogadorCorrenteVenceu() {
 		// Verifica se há alguma linha com mesmo valor (e diferente de vazio)
 		for (int linha=0; linha < TAMANHO_TABELA; linha++) {
@@ -103,6 +130,10 @@ public class JogoActivity extends ActionBarActivity {
 		return false;
 	}
 
+	/**
+	 * Método que identifica se ainda há botões que não foram clicados (que estão vazios)
+	 * @return true, se tem algum botão vazio, senão false.
+	 */
 	boolean existemMaisMovimentos() {
 		for (int linha=0; linha < TAMANHO_TABELA; linha++) {
 			for (int coluna=0; coluna < TAMANHO_TABELA; coluna++) {
@@ -114,6 +145,9 @@ public class JogoActivity extends ActionBarActivity {
 		return false;
 	}
 
+	/**
+	 * Alterna o jogador que será o próximo a jogar
+	 */
 	private void alternarJogadorCorrente() {
 		if (jogadorCorrente.equals(jogador1)) {
 			jogadorCorrente = jogador2;
@@ -122,29 +156,42 @@ public class JogoActivity extends ActionBarActivity {
 		}
 	}
 
+	/**
+	 * Apresenta na tela o jogador corrente
+	 */
 	private void mostrarJogadorCorrente() {
 		TextView labelJogador = (TextView) findViewById(R.id.label_jogador);
 		labelJogador.setText(jogadorCorrente.getNome() + " (" + jogadorCorrente.getSimbolo() + ")");
 	}
 
+	/**
+	 * Abre um diálogo na tela informando o restultado da partida. Reinicia o jogo automaticamente
+	 * quando o usuário fechar o diálogo.
+	 * @param mensagem - mensagem a ser exibida
+	 */
 	private void mostrarMensagemResultado(String mensagem) {
 
+		// Cria a caixa de diálogo
 		AlertDialog.Builder builder = new AlertDialog.Builder(JogoActivity.this);
 		builder.setTitle("Resultado");
 		builder.setMessage(mensagem);
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				dialog.dismiss();
-				reiniciaJogo();
+				dialog.dismiss(); // fecha o diálogo
+				reiniciarJogo();
 			}
 		});
-
 		AlertDialog alertDialog = builder.create();
+
+		// mostra a caixa de diálogo na tela
 		alertDialog.show();
 	}
 
-	void reiniciaJogo() {
+	/**
+	 * Reinicia o jogo, limpando e habilitando os botões
+	 */
+	void reiniciarJogo() {
 		for (int linha=0; linha < TAMANHO_TABELA; linha++) {
 			for (int coluna=0; coluna < TAMANHO_TABELA; coluna++) {
 				matrizBotoes[linha][coluna].setText("");
@@ -152,28 +199,4 @@ public class JogoActivity extends ActionBarActivity {
 			}
 		}
 	}
-
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_jogo, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-*/
 }

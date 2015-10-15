@@ -24,19 +24,19 @@
 				 tools:context=".JogoActivity">
 
 		<TableRow android:gravity="center_horizontal">
-			<Button android:id="@+id/buttonLine1Col1" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
-			<Button android:id="@+id/buttonLine1Col2" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
-			<Button android:id="@+id/buttonLine1Col3" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
+			<Button android:id="@+id/buttonLine1Col1" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
+			<Button android:id="@+id/buttonLine1Col2" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
+			<Button android:id="@+id/buttonLine1Col3" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
 		</TableRow>
 		<TableRow android:gravity="center_horizontal">
-			<Button android:id="@+id/buttonLine2Col1" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
-			<Button android:id="@+id/buttonLine2Col2" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
-			<Button android:id="@+id/buttonLine2Col3" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
+			<Button android:id="@+id/buttonLine2Col1" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
+			<Button android:id="@+id/buttonLine2Col2" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
+			<Button android:id="@+id/buttonLine2Col3" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
 		</TableRow>
 		<TableRow android:gravity="center_horizontal">
-			<Button android:id="@+id/buttonLine3Col1" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
-			<Button android:id="@+id/buttonLine3Col2" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
-			<Button android:id="@+id/buttonLine3Col3" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton"/>
+			<Button android:id="@+id/buttonLine3Col1" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
+			<Button android:id="@+id/buttonLine3Col2" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
+			<Button android:id="@+id/buttonLine3Col3" android:layout_width="100dp" android:layout_height="100dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:onClick="onClickButton" android:textSize="50dp"/>
 		</TableRow>
 
 	</TableLayout>
