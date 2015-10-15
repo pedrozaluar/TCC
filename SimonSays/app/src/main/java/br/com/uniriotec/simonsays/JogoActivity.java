@@ -22,6 +22,7 @@ public class JogoActivity extends Activity {
 	private Button botaoPlay;
 	private List<Button> listaBotoesSorteados;
 	private int proximoIndiceBotaoVerificar;
+	private int quantidadeCliquesRestantesRodada;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class JogoActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		this.listaBotoesSorteados = new ArrayList<Button>();
+		listaBotoesSorteados = new ArrayList<Button>();
 		guardarArrayBotoes();
 		botaoPlay = (Button) findViewById(R.id.botao_play);
 	}
@@ -51,6 +52,7 @@ public class JogoActivity extends Activity {
 
 		if (botaoClicado.equals(botaoQueDeveriaClicar)) {
 			proximoIndiceBotaoVerificar++;
+			setQuantidadeCliquesRestantesRodada(quantidadeCliquesRestantesRodada - 1);
 
 			if(proximoIndiceBotaoVerificar > listaBotoesSorteados.size()-1) {
 				// venceu a rodada
@@ -60,6 +62,7 @@ public class JogoActivity extends Activity {
 			mostrarMensagemResultado();
 			habilitarBotoes(false);
 			listaBotoesSorteados.clear();
+			botaoPlay.setText("PLAY");
 			botaoPlay.setEnabled(true);
 		}
 	}
@@ -74,6 +77,7 @@ public class JogoActivity extends Activity {
 		adicionarNovoBotaoSorteadoNaLista();
 		piscarBotoesNaTela();
 		proximoIndiceBotaoVerificar = 0;
+		setQuantidadeCliquesRestantesRodada(listaBotoesSorteados.size());
 	}
 
 	private void habilitarBotoes(boolean habilitar) {
@@ -151,5 +155,10 @@ public class JogoActivity extends Activity {
 
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
+	}
+
+	public void setQuantidadeCliquesRestantesRodada(int quantidadeCliquesRestantesRodada) {
+		this.quantidadeCliquesRestantesRodada = quantidadeCliquesRestantesRodada;
+		botaoPlay.setText("Restantes: " + quantidadeCliquesRestantesRodada);
 	}
 }
