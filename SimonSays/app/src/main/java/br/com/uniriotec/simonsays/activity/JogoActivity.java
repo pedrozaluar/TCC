@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.Random;
 
 import br.com.uniriotec.simonsays.R;
+import br.com.uniriotec.simonsays.interfaceUtils.ButtonUtils;
+import br.com.uniriotec.simonsays.interfaceUtils.ConfiguracaoPisqueBotao;
 import br.com.uniriotec.simonsays.util.Lista;
 import br.com.uniriotec.simonsays.util.ListaDeArray;
 
@@ -20,15 +21,32 @@ import br.com.uniriotec.simonsays.util.ListaDeArray;
  */
 public class JogoActivity extends Activity {
 
+	public class MinhaConfiguracaoPisqueBotao implements ConfiguracaoPisqueBotao {
+		@Override
+		public void acender(Button button) {
+			button.setSelected(true);
+		}
+
+		@Override
+		public void apagar(Button button) {
+			button.setSelected(false);
+		}
+
+		@Override
+		public void executarAposPiscarBotoes() {
+			habilitarBotoesDoJogo(true);
+		}
+	}
+
 	public static final int NUM_SEQUENCIA_MAXIMA = 8;
-	public static final int MILLISEGUNDOS_PISCAR_BOTAO = 1000;
-	public static final int MILLISEGUNDOS_ESPERAR_PISCAR_BOTAO = 500;
 
 	private Button[] botoes;
 	private Button botaoPlay;
 	private Lista<Button> listaBotoesSorteados;
-	private int proximoIndiceBotaoVerificar;
+	private int indiceBotaoVerificar;
 	private int quantidadeCliquesRestantesRodada;
+
+	private ConfiguracaoPisqueBotao configuracaoPisqueBotao;
 
 	/**
 	 * Além de chamar o método onCreate da classe pai, indica o XML referente à tela que esta
@@ -51,9 +69,10 @@ public class JogoActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		listaBotoesSorteados = new ListaDeArray<Button>(NUM_SEQUENCIA_MAXIMA);
 		guardarArrayBotoes();
 		botaoPlay = (Button) findViewById(R.id.botao_play);
+		listaBotoesSorteados = new ListaDeArray<Button>(NUM_SEQUENCIA_MAXIMA);
+		configuracaoPisqueBotao = new MinhaConfiguracaoPisqueBotao();
 	}
 
 	/**
@@ -74,13 +93,13 @@ public class JogoActivity extends Activity {
 	 */
 	public void onClickColorButton(View view) {
 		Button botaoClicado = (Button) view;
-		Button botaoQueDeveriaClicar = listaBotoesSorteados.get(proximoIndiceBotaoVerificar);
+		Button botaoQueDeveriaClicar = listaBotoesSorteados.get(indiceBotaoVerificar);
 
 		if (botaoClicado.equals(botaoQueDeveriaClicar)) {
-			proximoIndiceBotaoVerificar++;
+			indiceBotaoVerificar++;
 			setQuantidadeCliquesRestantesRodada(quantidadeCliquesRestantesRodada - 1);
 
-			if(proximoIndiceBotaoVerificar > listaBotoesSorteados.tamanho()-1) {
+			if (quantidadeCliquesRestantesRodada == 0) {
 				// venceu a rodada
 				if (listaBotoesSorteados.estahCheia()) {
 					mostrarMensagemResultado("VITÓRIA", "Você conseguiu fazer a sequência de " + listaBotoesSorteados.tamanho() + " cores!");
@@ -90,7 +109,7 @@ public class JogoActivity extends Activity {
 				}
 			}
 		} else {
-			mostrarMensagemResultado("Você perdeu =(", "Maior sequência feita: " + (listaBotoesSorteados.tamanho()-1) + " cor(es)!");
+			mostrarMensagemResultado("PERDEU", "Maior sequência feita: " + (listaBotoesSorteados.tamanho()-1) + " cor(es)!");
 			finalizarJogo();
 		}
 	}
@@ -100,7 +119,7 @@ public class JogoActivity extends Activity {
 	 * deixando a tela como se o usuário tivesse reiniciado o aplicativo
 	 */
 	private void finalizarJogo() {
-		habilitarBotoesDeCores(false);
+		habilitarBotoesDoJogo(false);
 		listaBotoesSorteados.limpar();
 		botaoPlay.setText("PLAY");
 		botaoPlay.setEnabled(true);
@@ -121,18 +140,18 @@ public class JogoActivity extends Activity {
 	 * clica nos botões na ordem da sequência piscada.
 	 */
 	private void iniciarNovaRodada() {
-		habilitarBotoesDeCores(false);
+		habilitarBotoesDoJogo(false);
 		adicionarNovoBotaoSorteadoNaLista();
-		piscarBotoesNaTela();
-		proximoIndiceBotaoVerificar = 0;
+		indiceBotaoVerificar = 0;
 		setQuantidadeCliquesRestantesRodada(listaBotoesSorteados.tamanho());
+		ButtonUtils.piscarBotoes(listaBotoesSorteados, configuracaoPisqueBotao);
 	}
 
 	/**
 	 * Habilita/Desabilita os botões das cores na tela
 	 * @param habilitar
 	 */
-	private void habilitarBotoesDeCores(boolean habilitar) {
+	private void habilitarBotoesDoJogo(boolean habilitar) {
 		for(Button botao : botoes) {
 			botao.setEnabled(habilitar);
 		}
@@ -145,58 +164,10 @@ public class JogoActivity extends Activity {
 
 		// Random.nextInt(n): gera um número aleatório entre 0 e n-1
 		Random geradorDeAleatorios = new Random();
-		int numeroAleatorioEntre0e3 = geradorDeAleatorios.nextInt(4);
+		int numeroDoBotaoAleatorio = geradorDeAleatorios.nextInt(botoes.length);
+		Button botaoAleatorio = botoes[numeroDoBotaoAleatorio];
 
-		listaBotoesSorteados.add(botoes[numeroAleatorioEntre0e3]);
-	}
-
-	/**
-	 * Pisca os botões na sequência que eles estão na lista 'listaBotoesSorteados'
-	 */
-	private void piscarBotoesNaTela() {
-		piscarBotoesSorteados(0);
-	}
-
-	/**
-	 * Pisca (acende por um tempo depois apaga)* os botoes a partir do indice "indiceBotaoInicioPiscar" na lista "listaBotoesSorteados"
-	 * *Acender é colocar uma cor mais clara, apagar é voltar à cor original do botão
-	 * @param indiceBotaoInicioPiscar
-	 */
-	private void piscarBotoesSorteados(final int indiceBotaoInicioPiscar) {
-
-		// marca o botão para acender ao final do método
-		listaBotoesSorteados.get(indiceBotaoInicioPiscar).setSelected(true);
-
-		// chama método assíncrono para executar daqui a X milissegundos para apagar o botão e acender os próximos botões
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				// marca o botão para "apagar" ao final do método
-				listaBotoesSorteados.get(indiceBotaoInicioPiscar).setSelected(false);
-
-				// Continua piscando os próximos botões ou, se terminou, habilita para o jogador fazer a jogada
-				int proximoIndiceBotaoPiscar = indiceBotaoInicioPiscar + 1;
-				boolean temMaisBotoesParaPiscar = proximoIndiceBotaoPiscar < listaBotoesSorteados.tamanho();
-
-				if (temMaisBotoesParaPiscar) {
-					esperarParaPiscar(proximoIndiceBotaoPiscar);
-				} else {
-					habilitarBotoesDeCores(true);
-				}
-			}
-		}, MILLISEGUNDOS_PISCAR_BOTAO);
-	}
-
-	/**
-	 * Espera um tempo para piscar o próximo botão da lista
-	 * @param indiceBotaoInicioPiscar
-	 */
-	private void esperarParaPiscar(final int indiceBotaoInicioPiscar) {
-		new Handler().postDelayed(new Runnable() {
-			public void run() {
-				piscarBotoesSorteados(indiceBotaoInicioPiscar);
-			}
-		}, MILLISEGUNDOS_ESPERAR_PISCAR_BOTAO);
+		listaBotoesSorteados.add(botaoAleatorio);
 	}
 
 	/**
