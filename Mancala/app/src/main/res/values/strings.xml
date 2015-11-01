@@ -1,0 +1,12 @@
+<resources>
+	<string name="app_name">Mancala</string>
+
+	<string name="action_settings">Settings</string>
+
+	<!-- MANCALA -->
+	<string name="txt_btn_inicio">INICIAR</string>
+	<string name="txt_info_jogador_corrente">Jogador da Vez:</string>
+	<string name="nome_jogador_1">Azul</string>
+	<string name="nome_jogador_2">Vermelho</string>
+
+</resources>
