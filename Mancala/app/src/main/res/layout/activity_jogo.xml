@@ -1,5 +1,6 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/tabuleiro"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -11,18 +12,18 @@
 
 	<TableRow android:layout_width="match_parent" android:layout_weight="30">
 
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="0dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="4"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="11"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="1"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="8"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="0dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="2"/>
+		<Button android:tag="jogador2-cavidade1" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="0dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador2-cavidade2" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador2-cavidade3" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador2-cavidade4" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador2-cavidade5" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador2-cavidade6" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="0dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
 
 	</TableRow>
 
 	<TableRow android:layout_width="match_parent" android:layout_weight="40" android:layout_marginTop="10dp"  android:layout_marginBottom="10dp" >
 
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:layout_marginRight="10dp" android:enabled="false" android:textSize="@dimen/tamanho_fonte_repositorio" android:text="3" />
+		<Button android:id="@+id/repositorioJogador2" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_2" android:layout_marginRight="10dp" android:enabled="false" android:textSize="@dimen/tamanho_fonte_repositorio" android:text="0" />
 
 		<LinearLayout android:layout_weight="1"
 		              android:layout_width="0dp"
@@ -32,6 +33,7 @@
 					  android:gravity="center">
 
 			<TextView
+				android:id="@+id/txtInfoJogadorCorrente"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/txt_info_jogador_corrente"
@@ -39,14 +41,14 @@
 				android:visibility="gone"/>
 
 			<TextView
-				android:id="@+id/txtJogadorCorrente"
+				android:id="@+id/txtNomeJogadorCorrente"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/nome_jogador_1"
 				android:textSize="@dimen/tamanho_fonte_jogador_corrente"
 				android:visibility="gone"/>
 
 			<Button
+				android:id="@+id/botao_iniciar"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:text="@string/txt_btn_inicio"
@@ -54,18 +56,18 @@
 				android:onClick="onClickButtonIniciar"/>
 		</LinearLayout>
 
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:layout_marginLeft="10dp" android:enabled="false" android:textSize="@dimen/tamanho_fonte_repositorio" android:text="12" />
+		<Button android:id="@+id/repositorioJogador1" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:layout_marginLeft="10dp" android:enabled="false" android:textSize="@dimen/tamanho_fonte_repositorio" android:text="0" />
 
 	</TableRow>
 
 	<TableRow android:layout_width="match_parent" android:layout_weight="30">
 
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="0dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="3"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="7"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="14"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
-		<Button android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="0dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="5"/>
+		<Button android:tag="jogador1-cavidade1" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="0dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador1-cavidade2" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador1-cavidade3" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador1-cavidade4" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador1-cavidade5" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
+		<Button android:tag="jogador1-cavidade6" android:layout_weight="1" android:layout_height="match_parent" android:layout_width="0dp" android:background="@drawable/botao_jogador_1" android:onClick="onClickButtonCavidade" android:layout_marginLeft="8dp" android:layout_marginRight="0dp" android:textSize="@dimen/tamanho_fonte_cavidade" android:text="0"/>
 
 	</TableRow>
 </TableLayout>
