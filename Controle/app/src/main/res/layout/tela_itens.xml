@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:id="@+id/relative_layout"
+             android:background=""
+
+    >
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_itens"
+        android:choiceMode="singleChoice"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/botao_novoitem"
+        android:layout_marginTop="55dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="55dp"
+        android:divider="#909090"
+        android:dividerHeight="2sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inserir novo item"
+        android:id="@+id/textView"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="46dp"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/botao_novoitem"
+        android:textSize="15dp"
+        android:layout_marginLeft="-40dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Total"
+        android:id="@+id/textView2"
+        android:layout_marginBottom="27dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_marginEnd="35dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="valortotal"
+        android:id="@+id/valortotal"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"/>
+
+</RelativeLayout>
