@@ -10,8 +10,9 @@ import android.widget.Button;
 import java.util.Random;
 
 import br.com.uniriotec.simonsays.R;
-import br.com.uniriotec.simonsays.interfaceUtils.ButtonUtils;
+import br.com.uniriotec.simonsays.interfaceUtils.BotaoUtils;
 import br.com.uniriotec.simonsays.interfaceUtils.ConfiguracaoPisqueBotao;
+import br.com.uniriotec.simonsays.interfaceUtils.MensagemUtils;
 import br.com.uniriotec.simonsays.util.Lista;
 import br.com.uniriotec.simonsays.util.ListaDeArray;
 
@@ -63,7 +64,7 @@ public class JogoActivity extends Activity {
 
 	/**
 	 * Além de chamar o método onStart da classe pai, este método inicializa o jogo,
-	 * instanciando variáveis que usaremos.
+	 * instanciando variáveis que usaremos (como se fosse o construtor da activity).
 	 * PS: Este método é chamado após o onCreate, quando a classe já reconhece o XML referente à tela desta activity.
 	 */
 	@Override
@@ -102,14 +103,14 @@ public class JogoActivity extends Activity {
 			if (quantidadeCliquesRestantesRodada == 0) {
 				// venceu a rodada
 				if (listaBotoesSorteados.estahCheia()) {
-					mostrarMensagemResultado("VITÓRIA", "Você conseguiu fazer a sequência de " + listaBotoesSorteados.tamanho() + " cores!");
+					MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "VITÓRIA", "Você conseguiu fazer a sequência de " + listaBotoesSorteados.tamanho() + " cores!");
 					finalizarJogo();
 				} else {
 					iniciarNovaRodada();
 				}
 			}
 		} else {
-			mostrarMensagemResultado("PERDEU", "Maior sequência feita: " + (listaBotoesSorteados.tamanho()-1) + " cor(es)!");
+			MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "PERDEU", "Maior sequência feita: " + (listaBotoesSorteados.tamanho()-1) + " cor(es)!");
 			finalizarJogo();
 		}
 	}
@@ -144,7 +145,7 @@ public class JogoActivity extends Activity {
 		adicionarNovoBotaoSorteadoNaLista();
 		indiceBotaoVerificar = 0;
 		setQuantidadeCliquesRestantesRodada(listaBotoesSorteados.tamanho());
-		ButtonUtils.piscarBotoes(listaBotoesSorteados, configuracaoPisqueBotao);
+		BotaoUtils.piscarBotoes(listaBotoesSorteados.obterArray(), configuracaoPisqueBotao);
 	}
 
 	/**
@@ -168,27 +169,6 @@ public class JogoActivity extends Activity {
 		Button botaoAleatorio = botoes[numeroDoBotaoAleatorio];
 
 		listaBotoesSorteados.add(botaoAleatorio);
-	}
-
-	/**
-	 * Abre um diálogo na tela informando o restultado da partida.
-	 * @param titulo - Titulo do diálogo
-	 * @param mensagem - Mensagem do diálogo
-	 */
-	private void mostrarMensagemResultado(String titulo, String mensagem) {
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(JogoActivity.this);
-		builder.setTitle(titulo);
-		builder.setMessage(mensagem);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.dismiss();
-			}
-		});
-
-		AlertDialog alertDialog = builder.create();
-		alertDialog.show();
 	}
 
 	/**
