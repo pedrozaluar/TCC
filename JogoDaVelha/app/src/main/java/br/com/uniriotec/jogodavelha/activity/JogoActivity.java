@@ -1,7 +1,5 @@
 package br.com.uniriotec.jogodavelha.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,19 +7,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import br.com.uniriotec.jogodavelha.R;
+import br.com.uniriotec.jogodavelha.interfaceUtils.MensagemUtils;
 import br.com.uniriotec.jogodavelha.model.Jogador;
+import br.com.uniriotec.jogodavelha.model.Tabuleiro3x3;
 
 /**
  * Classe responsável por apresentar a tela do tabuleiro do jogo da velha e implementar suas funcionalidades
  */
 public class JogoActivity extends ActionBarActivity {
 
-	public static final int TAMANHO_TABELA = 3;
-
 	private Jogador jogador1;
 	private Jogador jogador2;
 	private Jogador jogadorCorrente;
-	private Button matrizBotoes[][];
+	private Tabuleiro3x3 tabuleiro;
 
 	/**
 	 * Além de chamar o método onCreate da classe pai, indica o XML referente à tela que esta
@@ -46,7 +44,7 @@ public class JogoActivity extends ActionBarActivity {
 		super.onStart();
 		jogador1 = new Jogador("Jogador 1", "X");
 		jogador2 = new Jogador("Jogador 2", "O");
-		guardarMatrizBotoes();
+		iniciarTabuleiro();
 		jogadorCorrente = jogador1;
 		mostrarJogadorCorrente();
 	}
@@ -55,8 +53,8 @@ public class JogoActivity extends ActionBarActivity {
 	 * Guarda os botões da tela em uma matriz ao início da execução, para não precisarmos ficar
 	 * "procurando" a referência dos botões no xml toda hora.
 	 */
-	private void guardarMatrizBotoes() {
-		matrizBotoes = new Button[TAMANHO_TABELA][TAMANHO_TABELA];
+	private void iniciarTabuleiro() {
+		Button matrizBotoes[][] = new Button[Tabuleiro3x3.TAMANHO][Tabuleiro3x3.TAMANHO];
 		matrizBotoes[0][0] = (Button) findViewById(R.id.buttonLine1Col1);
 		matrizBotoes[0][1] = (Button) findViewById(R.id.buttonLine1Col2);
 		matrizBotoes[0][2] = (Button) findViewById(R.id.buttonLine1Col3);
@@ -68,6 +66,8 @@ public class JogoActivity extends ActionBarActivity {
 		matrizBotoes[2][0] = (Button) findViewById(R.id.buttonLine3Col1);
 		matrizBotoes[2][1] = (Button) findViewById(R.id.buttonLine3Col2);
 		matrizBotoes[2][2] = (Button) findViewById(R.id.buttonLine3Col3);
+
+		tabuleiro = new Tabuleiro3x3(matrizBotoes);
 	}
 
 	/**
@@ -79,70 +79,16 @@ public class JogoActivity extends ActionBarActivity {
 		botaoClicado.setText(jogadorCorrente.getSimbolo());
 		botaoClicado.setEnabled(false);
 
-		if (jogadorCorrenteVenceu()) {
-			mostrarMensagemResultado(jogadorCorrente.getNome() + " venceu!");
-		} else if (existemMaisMovimentos()) {
+		if (tabuleiro.temSequenciaCompletaDeSimbolos()) {
+			MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "Parabéns", jogadorCorrente.getNome() + " venceu!");
+			tabuleiro.reiniciar();
+		} else if (tabuleiro.existemMaisMovimentos()) {
 			alternarJogadorCorrente();
 			mostrarJogadorCorrente();
 		} else {
-			mostrarMensagemResultado("Deu velha! (ninguém venceu)");
+			MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "Velha", "Deu velha! (ninguém venceu)");
+			tabuleiro.reiniciar();
 		}
-	}
-
-	/**
-	 * Método que identifica se o jogador que acabou de executar a jogada venceu o jogo
-	 * @return true, se existe uma sequência de três símbolos iguais na vertical, horizontal ou
-	 * diagonal, senão false.
-	 */
-	private boolean jogadorCorrenteVenceu() {
-		// Verifica se há alguma linha com mesmo valor (e diferente de vazio)
-		for (int linha=0; linha < TAMANHO_TABELA; linha++) {
-			if (!matrizBotoes[linha][0].getText().equals("") &&
-				 matrizBotoes[linha][0].getText().equals(matrizBotoes[linha][1].getText()) &&
-				 matrizBotoes[linha][1].getText().equals(matrizBotoes[linha][2].getText())) {
-				return true;
-			}
-		}
-
-		// Verifica se há alguma coluna com mesmo valor (e diferente de vazio)
-		for (int coluna=0; coluna < TAMANHO_TABELA; coluna++) {
-			if (matrizBotoes[0][coluna].getText().length() != 0 &&
-				matrizBotoes[0][coluna].getText().equals(matrizBotoes[1][coluna].getText()) &&
-				matrizBotoes[1][coluna].getText().equals(matrizBotoes[2][coluna].getText())) {
-				return true;
-			}
-		}
-
-		// Verifica diagonal 1
-		if (matrizBotoes[0][0].getText().length() != 0 &&
-			matrizBotoes[0][0].getText().equals(matrizBotoes[1][1].getText()) &&
-			matrizBotoes[1][1].getText().equals(matrizBotoes[2][2].getText())) {
-			return true;
-		}
-
-		// Verifica diagonal 2
-		if (matrizBotoes[0][2].getText().length() != 0 &&
-			matrizBotoes[0][2].getText().equals(matrizBotoes[1][1].getText()) &&
-			matrizBotoes[1][1].getText().equals(matrizBotoes[2][0].getText())) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Método que identifica se ainda há botões que não foram clicados (que estão vazios)
-	 * @return true, se tem algum botão vazio, senão false.
-	 */
-	boolean existemMaisMovimentos() {
-		for (int linha=0; linha < TAMANHO_TABELA; linha++) {
-			for (int coluna=0; coluna < TAMANHO_TABELA; coluna++) {
-				if (matrizBotoes[linha][coluna].getText().length() == 0) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -162,41 +108,7 @@ public class JogoActivity extends ActionBarActivity {
 	private void mostrarJogadorCorrente() {
 		TextView labelJogador = (TextView) findViewById(R.id.label_jogador);
 		labelJogador.setText(jogadorCorrente.getNome() + " (" + jogadorCorrente.getSimbolo() + ")");
-	}
-
-	/**
-	 * Abre um diálogo na tela informando o restultado da partida. Reinicia o jogo automaticamente
-	 * quando o usuário fechar o diálogo.
-	 * @param mensagem - mensagem a ser exibida
-	 */
-	private void mostrarMensagemResultado(String mensagem) {
-
-		// Cria a caixa de diálogo
-		AlertDialog.Builder builder = new AlertDialog.Builder(JogoActivity.this);
-		builder.setTitle("Resultado");
-		builder.setMessage(mensagem);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.dismiss(); // fecha o diálogo
-				reiniciarJogo();
-			}
-		});
-		AlertDialog alertDialog = builder.create();
-
-		// mostra a caixa de diálogo na tela
-		alertDialog.show();
-	}
-
-	/**
-	 * Reinicia o jogo, limpando e habilitando os botões
-	 */
-	void reiniciarJogo() {
-		for (int linha=0; linha < TAMANHO_TABELA; linha++) {
-			for (int coluna=0; coluna < TAMANHO_TABELA; coluna++) {
-				matrizBotoes[linha][coluna].setText("");
-				matrizBotoes[linha][coluna].setEnabled(true);
-			}
-		}
+		// OU: se implementar o método 'toString()' da classe Jogador poderia ficar:
+		// labelJogador.setText(jogadorCorrente);
 	}
 }
