@@ -9,6 +9,7 @@ import android.widget.TextView;
 import br.com.uniriotec.jogodavelha.R;
 import br.com.uniriotec.jogodavelha.interfaceUtils.MensagemUtils;
 import br.com.uniriotec.jogodavelha.model.Jogador;
+import br.com.uniriotec.jogodavelha.model.Tabuleiro;
 import br.com.uniriotec.jogodavelha.model.Tabuleiro3x3;
 
 /**
@@ -19,7 +20,7 @@ public class JogoActivity extends ActionBarActivity {
 	private Jogador jogador1;
 	private Jogador jogador2;
 	private Jogador jogadorCorrente;
-	private Tabuleiro3x3 tabuleiro;
+	private Tabuleiro tabuleiro;
 
 	/**
 	 * Além de chamar o método onCreate da classe pai, indica o XML referente à tela que esta
@@ -79,7 +80,7 @@ public class JogoActivity extends ActionBarActivity {
 		botaoClicado.setText(jogadorCorrente.getSimbolo());
 		botaoClicado.setEnabled(false);
 
-		if (tabuleiro.temSequenciaCompletaDeSimbolos()) {
+		if (tabuleiro.completouSequenciaDeSimbolos()) {
 			MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "Parabéns", jogadorCorrente.getNome() + " venceu!");
 			tabuleiro.reiniciar();
 		} else if (tabuleiro.existemMaisMovimentos()) {

@@ -3,9 +3,9 @@ package br.com.uniriotec.jogodavelha.model;
 import android.widget.Button;
 
 /**
- * Classe que representa o tabuleiro do jogo da velha
+ * Classe que representa o tabuleiro de tamanho 3x3 do jogo da velha
  */
-public class Tabuleiro3x3 {
+public class Tabuleiro3x3 implements Tabuleiro {
 
 	public static final int TAMANHO = 3;
 	private Button matrizBotoes[][];
@@ -19,7 +19,7 @@ public class Tabuleiro3x3 {
 	 * @return true, se existe uma sequência de três símbolos iguais na horizontal, vertical ou
 	 * diagonal, senão false.
 	 */
-	public boolean temSequenciaCompletaDeSimbolos() {
+	public boolean completouSequenciaDeSimbolos() {
 		// Verifica se há alguma linha com mesmo valor (e diferente de vazio)
 		for (int linha=0; linha < TAMANHO; linha++) {
 			if (!matrizBotoes[linha][0].getText().equals("") &&
