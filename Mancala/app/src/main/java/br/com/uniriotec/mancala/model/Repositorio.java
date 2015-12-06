@@ -7,7 +7,11 @@ import android.widget.Button;
  */
 public class Repositorio extends LocalDeSementes {
 
-	public Repositorio(Button botaoCavidade) {
-		super(botaoCavidade);
+	/**
+	 * Construtor
+	 * @param botaoRepositorio - botão da tela relacionado ao repositório
+	 */
+	public Repositorio(Button botaoRepositorio) {
+		super(botaoRepositorio);
 	}
 }

@@ -22,6 +22,9 @@ import br.com.uniriotec.simonsays.util.ListaDeArray;
  */
 public class JogoActivity extends Activity {
 
+	/**
+	 * Classe interna que configura como acontecerá o piscar dos botões na tela.
+	 */
 	public class MinhaConfiguracaoPisqueBotao implements ConfiguracaoPisqueBotao {
 		@Override
 		public void acender(Button button) {

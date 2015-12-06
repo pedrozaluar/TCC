@@ -44,11 +44,21 @@ public class Jogador {
 		this.repositorio = repositorio;
 	}
 
+	/**
+	 * Retira e retorna as sementes da cavidade de número 'numeroDaCavidade'
+	 * @param numeroDaCavidade - Número da cavidade que devem ser apanhadas as sementes
+	 * @return número de sementes que foram apanhadas
+	 */
 	public int pegarSementesDaCavidade(int numeroDaCavidade) {
 		Cavidade cavidade = obterCavidadePeloNumero(numeroDaCavidade);
 		return cavidade.pegarSementes();
 	}
 
+	/**
+	 * Obtém a cavidade de número 'numeroDaCavidade' deste jogador
+	 * @param numeroDaCavidade
+	 * @return cavidade de número 'numeroDaCavidade'
+	 */
 	public Cavidade obterCavidadePeloNumero(int numeroDaCavidade) {
 		for (Cavidade cavidade : cavidades) {
 			if (cavidade.getNumero() == numeroDaCavidade) {
@@ -59,10 +69,18 @@ public class Jogador {
 		return null;
 	}
 
+	/**
+	 * Retorna o total de sementes do jogador, somando as sementes das cavidades com as do repositório
+	 * @return
+	 */
 	public int obterTotalDeSementes() {
 		return obterTotalSementesDasCavidades() + repositorio.getNumeroDeSementes();
 	}
 
+	/**
+	 * Retorna o total de sementes encontradas nas cavidades do jogador
+	 * @return
+	 */
 	public int obterTotalSementesDasCavidades() {
 		int totalSementes = 0;
 		for (Cavidade cavidade : cavidades) {
@@ -71,7 +89,26 @@ public class Jogador {
 		return totalSementes;
 	}
 
+	/**
+	 * Indica se a cavidade passada por parâmetro é deste jogador
+	 * @param cavidade
+	 * @return
+	 */
 	public boolean ehDonoDaCavidade(Cavidade cavidade) {
 		return cavidade.getTag().startsWith("jogador" + id);
+	}
+
+	/**
+	 * Habilita ou desabilita as cavidades do jogador
+	 * @param habilitar - se true, habilita, senão desabilita
+	 */
+	public void habilitarCavidades(boolean habilitar) {
+		for (Cavidade cavidade : cavidades) {
+			if (habilitar) {
+				cavidade.habilitar();
+			} else {
+				cavidade.desabilitar();
+			}
+		}
 	}
 }

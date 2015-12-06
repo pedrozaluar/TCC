@@ -33,6 +33,11 @@ public class MensagemUtils {
 		alertDialog.show();
 	}
 
+	/**
+	 * Mostra uma mensagem por um curto período na tela e depois desaparece
+	 * @param context - MyActivity.class
+	 * @param mensagem
+	 */
 	public static void mostrarMensagemRapida(Context context, String mensagem) {
 		Toast.makeText(context, mensagem, Toast.LENGTH_SHORT).show();
 	}

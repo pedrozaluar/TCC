@@ -15,6 +15,9 @@ import br.com.uniriotec.mancala.model.LocalDeSementes;
 import br.com.uniriotec.mancala.model.Repositorio;
 
 
+/**
+ * Classe responsável por apresentar a tela do tabuleiro do jogo mancala
+ */
 public class JogoActivity extends Activity {
 
 	private static final int NUM_SEMENTES_INICIAL_POR_CAVIDADE  = 4;
@@ -26,20 +29,34 @@ public class JogoActivity extends Activity {
 
 	private LocalDeSementes ultimoLocalOndeSemeou = null;
 
+	/**
+	 * Além de chamar o método onCreate da classe pai, indica o XML referente à tela que esta
+	 * classe irá chamar.
+	 * Obs.1: Este método é chamado ao iniciar o aplicativo.
+	 * Obs.2: Método criado automaticamente pela IDE (Android Studio).
+	 * @param savedInstanceState
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_jogo);
 	}
 
+	/**
+	 * Além de chamar o método onStart da classe pai, este método inicializa o jogo e instancia variáveis que usaremos
+	 * PS: Este método é chamado após o onCreate, quando a classe já reconhece o XML referente à tela desta activity.
+	 */
 	@Override
 	protected void onStart() {
 		super.onStart();
 		armazenarElementosDaTela();
-		habilitarCavidadesDoJogador(jogador1, false);
-		habilitarCavidadesDoJogador(jogador2, false);
+		jogador1.habilitarCavidades(false);
+		jogador2.habilitarCavidades(false);
 	}
 
+	/**
+	 * Referencia os elementos da tela aos devidos atributos da classe no Java.
+	 */
 	private void armazenarElementosDaTela() {
 		View tabuleiro = findViewById(R.id.tabuleiro);
 
@@ -74,16 +91,11 @@ public class JogoActivity extends Activity {
 		jogador2.setRepositorio(repositorioJogador2);
 	}
 
-	private void habilitarCavidadesDoJogador(Jogador jogador, boolean habilitar) {
-		for (Cavidade cavidade : jogador.getCavidades()) {
-			if (habilitar) {
-				cavidade.habilitar();
-			} else {
-				cavidade.desabilitar();
-			}
-		}
-	}
-
+	/**
+	 * Este método será chamado ao clicar no botão INICIAR. Prepara para o início do jogo com o
+	 * jogador1 começando o jogo
+	 * @param view
+	 */
 	public void onClickButtonIniciar(View view) {
 		preencherSementesIniciais();
 		mostrarBotaoIniciar(false);
@@ -92,11 +104,19 @@ public class JogoActivity extends Activity {
 		habilitarCavidadesDoJogadorCorrente();
 	}
 
+	/**
+	 * Preenche as sementes iniciais dos jogadores
+	 */
 	private void preencherSementesIniciais() {
 		preencherSementesIniciaisDoJogador(jogador1);
 		preencherSementesIniciaisDoJogador(jogador2);
 	}
 
+	/**
+	 * Preenche as cavidades do jogador com a quantidade de sementes inicial e
+	 * limpa o repositório (zero sementes)
+	 * @param jogador
+	 */
 	private void preencherSementesIniciaisDoJogador(Jogador jogador) {
 		for (Cavidade cavidade : jogador.getCavidades()) {
 			cavidade.setNumeroDeSementes(NUM_SEMENTES_INICIAL_POR_CAVIDADE);
@@ -104,6 +124,11 @@ public class JogoActivity extends Activity {
 		jogador.getRepositorio().setNumeroDeSementes(0);
 	}
 
+	/**
+	 * Mostra/Esconde o botão iniciar no meio da tela.
+	 * Quando ele não é apresentado, mostra a informação do jogador corrente.
+	 * @param mostrar
+	 */
 	private void mostrarBotaoIniciar(boolean mostrar) {
 		Button botaoIniciar = (Button) findViewById(R.id.botao_iniciar);
 		TextView txtInfoJogadorCorrente = (TextView) findViewById(R.id.txtInfoJogadorCorrente);
@@ -114,6 +139,11 @@ public class JogoActivity extends Activity {
 		mostrarElementoDaTela(txtNomeJogadorCorrente, !mostrar);
 	}
 
+	/**
+	 * Mostra/Esconde o elemento da tela (View) passado como parâmetro
+	 * @param elementoDaTela
+	 * @param mostrar
+	 */
 	private void mostrarElementoDaTela(View elementoDaTela, boolean mostrar) {
 		if (mostrar)
 			elementoDaTela.setVisibility(View.VISIBLE);
@@ -121,11 +151,18 @@ public class JogoActivity extends Activity {
 			elementoDaTela.setVisibility(View.GONE);
 	}
 
+	/**
+	 * Habilita as cavidades do jogador corrente e desabilita as do jogador em espera
+	 */
 	private void habilitarCavidadesDoJogadorCorrente() {
-		habilitarCavidadesDoJogador(jogadorCorrente, true);
-		habilitarCavidadesDoJogador(getJogadorEmEspera(), false);
+		jogadorCorrente.habilitarCavidades(true);
+		getJogadorEmEspera().habilitarCavidades(false);
 	}
 
+	/**
+	 * Retorna o jogador em espera
+	 * @return
+	 */
 	private Jogador getJogadorEmEspera() {
 		if (jogadorCorrente.getId() == jogador1.getId()) {
 			return jogador2;
@@ -134,6 +171,11 @@ public class JogoActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Obtém o jogador com id igual ao passado por parâmetro
+	 * @param id
+	 * @return
+	 */
 	private Jogador obterJogadorPeloId(int id) {
 		if (id == jogador1.getId()) {
 			return jogador1;
@@ -146,6 +188,12 @@ public class JogoActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Este método será chamado ao clicar em uma cavidade habilitada/clicável.
+	 * Executa a lógica de validação do clique, colheita e semeadura, casos especiais
+	 * e passa a vez para o próximo jogador (se for o caso)
+	 * @param view
+	 */
 	public void onClickButtonCavidade(View view) {
 		Cavidade cavidadeClicada = new Cavidade((Button) view);
 		// VALIDA CLIQUE
@@ -173,11 +221,11 @@ public class JogoActivity extends Activity {
 
 		// VALIDA FINAL DA PARTIDA
 		if (terminouPartida()) {
-			habilitarCavidadesDoJogador(jogador1, false);
-			habilitarCavidadesDoJogador(jogador2, false);
+			jogador1.habilitarCavidades(false);
+			jogador2.habilitarCavidades(false);
 			mostrarBotaoIniciar(true);
 
-			Jogador vencedor = getJogadorComMaisPontos();
+			Jogador vencedor = getJogadorComMaisSementes();
 			String mensagem = "O jogador " + vencedor.getNome() + " venceu com " + vencedor.obterTotalDeSementes() + " sementes.";
 			MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "Resultado", mensagem);
 
@@ -191,34 +239,12 @@ public class JogoActivity extends Activity {
 		ultimoLocalOndeSemeou = null;
 	}
 
-	private int obterNumeroCavidadeDaFrente(Cavidade cavidade) {
-		return Math.abs( cavidade.getNumero() - (TOTAL_CAVIDADES_POR_JOGADOR+1) ); // Math.abs(i : int): retorna o módulo/valor absoluto do número
-//      OU:
-//		switch (cavidade.getNumero()) {
-//			case 1: return 6;
-//			case 2: return 5;
-//			case 3: return 4;
-//			case 4: return 3;
-//			case 5: return 2;
-//			case 6: return 1;
-//			default: Log.e("ERRO", "Informou número de cavidade inválido");
-//					 return 0;
-//		}
-	}
-
-	private Jogador getJogadorComMaisPontos() {
-		if (jogador1.obterTotalDeSementes() > jogador2.obterTotalDeSementes()) {
-			return jogador1;
-		} else {
-			return jogador2;
-		}
-	}
-
-	private boolean terminouPartida() {
-		return jogador1.obterTotalSementesDasCavidades() == 0 ||
-			   jogador2.obterTotalSementesDasCavidades() == 0;
-	}
-
+	/**
+	 * Semeia 'numSementes' sementes nas próximas cavidades ou repositório no sentido anti-horário,
+	 * uma a uma, a partir da cavidade 'cavidadeClicada'
+	 * @param numSementes
+	 * @param cavidadeClicada
+	 */
 	private void semear(int numSementes, Cavidade cavidadeClicada) {
 		int idJogadorAdicionarSemente = jogadorCorrente.getId();
 		ultimoLocalOndeSemeou = cavidadeClicada; // o local anterior ao que vou semear primeiro, é justamente a cavidade clicada..
@@ -255,6 +281,51 @@ public class JogoActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Obtém o número da cavidade que, na tela, está em frente a cavidade passada como parâmetro
+	 * @param cavidade
+	 * @return
+	 */
+	private int obterNumeroCavidadeDaFrente(Cavidade cavidade) {
+		return Math.abs( cavidade.getNumero() - (TOTAL_CAVIDADES_POR_JOGADOR+1) ); // Math.abs(i : int): retorna o módulo/valor absoluto do número
+//      OU:
+//		switch (cavidade.getNumero()) {
+//			case 1: return 6;
+//			case 2: return 5;
+//			case 3: return 4;
+//			case 4: return 3;
+//			case 5: return 2;
+//			case 6: return 1;
+//			default: Log.e("ERRO", "Informou número de cavidade inválido");
+//					 return 0;
+//		}
+	}
+
+	/**
+	 * Retorna o jogador que tem mais sementes no total
+	 * @return
+	 */
+	private Jogador getJogadorComMaisSementes() {
+		if (jogador1.obterTotalDeSementes() > jogador2.obterTotalDeSementes()) {
+			return jogador1;
+		} else {
+			return jogador2;
+		}
+	}
+
+	/**
+	 * Verifica se terminou a partida.
+	 * Obs.: A partida termina quando algum dos lados não tem mais sementes em cavidades para colher/semear
+	 * @return
+	 */
+	private boolean terminouPartida() {
+		return jogador1.obterTotalSementesDasCavidades() == 0 ||
+			   jogador2.obterTotalSementesDasCavidades() == 0;
+	}
+
+	/**
+	 * Informa na tela qual o jogador da vez (corrente)
+	 */
 	private void informarJogadorCorrente() {
 		TextView txtNomeJogadorCorrente = (TextView) findViewById(R.id.txtNomeJogadorCorrente);
 		txtNomeJogadorCorrente.setText(jogadorCorrente.getNome());

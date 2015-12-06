@@ -9,24 +9,36 @@ public class LocalDeSementes {
 
 	protected Button botaoLocalDeSementes;
 
-	public int getId() {
-		return botaoLocalDeSementes.getId();
-	}
-
+	/**
+	 * Construtor
+	 * @param botaoLocalDeSementes - botão da tela relacionado ao local de sementes
+	 */
 	public LocalDeSementes(Button botaoLocalDeSementes) {
 		this.botaoLocalDeSementes = botaoLocalDeSementes;
 	}
 
+	/**
+	 * Retorna o número de sementes que tem neste local
+	 * @return
+	 */
 	public int getNumeroDeSementes() {
 		return Integer.parseInt(botaoLocalDeSementes.getText().toString());
 	}
 
+	/**
+	 * Muda a quantidade de sementes que tem neste local
+	 * @param numeroDeSementes - nova quantidade de sementes no local
+	 */
 	public void setNumeroDeSementes(int numeroDeSementes) {
 		botaoLocalDeSementes.setText(String.valueOf(numeroDeSementes));
 	}
 
+	/**
+	 * Adiciona no local o número de sementes passado por parâmetro
+	 * @param numeroDeSementesAdicionar
+	 */
 	public void adicionarSementes(int numeroDeSementesAdicionar) {
-		int numSementesAtual = Integer.parseInt(botaoLocalDeSementes.getText().toString());
-		botaoLocalDeSementes.setText(String.valueOf(numSementesAtual + numeroDeSementesAdicionar));
+		int numSementesAtual = getNumeroDeSementes();
+		setNumeroDeSementes(numSementesAtual + numeroDeSementesAdicionar);
 	}
 }
