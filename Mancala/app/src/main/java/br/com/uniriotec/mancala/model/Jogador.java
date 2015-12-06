@@ -1,6 +1,6 @@
 package br.com.uniriotec.mancala.model;
 
-import android.widget.Button;
+import android.util.Log;
 
 /**
  * Classe que representa um jogador no jogo Mancala
@@ -9,8 +9,8 @@ public class Jogador {
 
 	private int id;
 	private String nome;
-	private Button[] cavidades;
-	private Button repositorio;
+	private Cavidade[] cavidades;
+	private Repositorio repositorio;
 
 	public int getId() {
 		return id;
@@ -28,43 +28,50 @@ public class Jogador {
 		this.nome = nome;
 	}
 
-	public Button[] getCavidades() {
+	public Cavidade[] getCavidades() {
 		return cavidades;
 	}
 
-	public void setCavidades(Button[] cavidades) {
+	public void setCavidades(Cavidade[] cavidades) {
 		this.cavidades = cavidades;
 	}
 
-	public Button getRepositorio() {
+	public Repositorio getRepositorio() {
 		return repositorio;
 	}
 
-	public void setRepositorio(Button repositorio) {
+	public void setRepositorio(Repositorio repositorio) {
 		this.repositorio = repositorio;
 	}
 
 	public int pegarSementesDaCavidade(int numeroDaCavidade) {
-		Button cavidade = obterCavidadePeloNumero(numeroDaCavidade);
-		int numSementes = Integer.parseInt(cavidade.getText().toString());
-		cavidade.setText("0");
-		return numSementes;
+		Cavidade cavidade = obterCavidadePeloNumero(numeroDaCavidade);
+		return cavidade.pegarSementes();
 	}
 
-	private Button obterCavidadePeloNumero(int numeroDaCavidade) {
-		int indiceDaCavidade = numeroDaCavidade - 1;
-		return cavidades[indiceDaCavidade];
+	public Cavidade obterCavidadePeloNumero(int numeroDaCavidade) {
+		for (Cavidade cavidade : cavidades) {
+			if (cavidade.getNumero() == numeroDaCavidade) {
+				return cavidade;
+			}
+		}
+		Log.e("ERRO", "Tentou obter cavidade com número inválido");
+		return null;
 	}
 
-	public int getTotalSementes() {
-		return getTotalSementesCavidades() + Integer.parseInt(repositorio.getText().toString());
+	public int obterTotalDeSementes() {
+		return obterTotalSementesDasCavidades() + repositorio.getNumeroDeSementes();
 	}
 
-	public int getTotalSementesCavidades() {
+	public int obterTotalSementesDasCavidades() {
 		int totalSementes = 0;
-		for (Button cavidade : cavidades) {
-			totalSementes += Integer.parseInt(cavidade.getText().toString());
+		for (Cavidade cavidade : cavidades) {
+			totalSementes += cavidade.getNumeroDeSementes();
 		}
 		return totalSementes;
+	}
+
+	public boolean ehDonoDaCavidade(Cavidade cavidade) {
+		return cavidade.getTag().startsWith("jogador" + id);
 	}
 }

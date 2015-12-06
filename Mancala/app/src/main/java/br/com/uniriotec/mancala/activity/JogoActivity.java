@@ -1,7 +1,7 @@
 package br.com.uniriotec.mancala.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,10 +9,13 @@ import android.widget.TextView;
 
 import br.com.uniriotec.mancala.R;
 import br.com.uniriotec.mancala.interfaceUtils.MensagemUtils;
+import br.com.uniriotec.mancala.model.Cavidade;
 import br.com.uniriotec.mancala.model.Jogador;
+import br.com.uniriotec.mancala.model.LocalDeSementes;
+import br.com.uniriotec.mancala.model.Repositorio;
 
 
-public class JogoActivity extends ActionBarActivity {
+public class JogoActivity extends Activity {
 
 	private static final int NUM_SEMENTES_INICIAL_POR_CAVIDADE  = 4;
 	private static final int TOTAL_CAVIDADES_POR_JOGADOR = 6;
@@ -21,7 +24,7 @@ public class JogoActivity extends ActionBarActivity {
 	private Jogador jogador2;
 	private Jogador jogadorCorrente;
 
-	private Button ultimoLocalOndeSemeou = null;
+	private LocalDeSementes ultimoLocalOndeSemeou = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,45 +36,51 @@ public class JogoActivity extends ActionBarActivity {
 	protected void onStart() {
 		super.onStart();
 		armazenarElementosDaTela();
-		habilitarBotoes(jogador1.getCavidades(), false);
-		habilitarBotoes(jogador2.getCavidades(), false);
+		habilitarCavidadesDoJogador(jogador1, false);
+		habilitarCavidadesDoJogador(jogador2, false);
 	}
 
 	private void armazenarElementosDaTela() {
 		View tabuleiro = findViewById(R.id.tabuleiro);
 
-		Button[] cavidadesJogador1 = new Button[6];
-		cavidadesJogador1[0] = (Button) tabuleiro.findViewWithTag("jogador1-cavidade1");
-		cavidadesJogador1[1] = (Button) tabuleiro.findViewWithTag("jogador1-cavidade2");
-		cavidadesJogador1[2] = (Button) tabuleiro.findViewWithTag("jogador1-cavidade3");
-		cavidadesJogador1[3] = (Button) tabuleiro.findViewWithTag("jogador1-cavidade4");
-		cavidadesJogador1[4] = (Button) tabuleiro.findViewWithTag("jogador1-cavidade5");
-		cavidadesJogador1[5] = (Button) tabuleiro.findViewWithTag("jogador1-cavidade6");
+		Cavidade[] cavidadesJogador1 = new Cavidade[6];
+		cavidadesJogador1[0] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador1-cavidade1"));
+		cavidadesJogador1[1] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador1-cavidade2"));
+		cavidadesJogador1[2] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador1-cavidade3"));
+		cavidadesJogador1[3] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador1-cavidade4"));
+		cavidadesJogador1[4] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador1-cavidade5"));
+		cavidadesJogador1[5] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador1-cavidade6"));
+		Repositorio repositorioJogador1 = new Repositorio((Button) findViewById(R.id.repositorioJogador1));
 
-		Button[] cavidadesJogador2 = new Button[6];
-		cavidadesJogador2[0] = (Button) tabuleiro.findViewWithTag("jogador2-cavidade1");
-		cavidadesJogador2[1] = (Button) tabuleiro.findViewWithTag("jogador2-cavidade2");
-		cavidadesJogador2[2] = (Button) tabuleiro.findViewWithTag("jogador2-cavidade3");
-		cavidadesJogador2[3] = (Button) tabuleiro.findViewWithTag("jogador2-cavidade4");
-		cavidadesJogador2[4] = (Button) tabuleiro.findViewWithTag("jogador2-cavidade5");
-		cavidadesJogador2[5] = (Button) tabuleiro.findViewWithTag("jogador2-cavidade6");
+		Cavidade[] cavidadesJogador2 = new Cavidade[6];
+		cavidadesJogador2[0] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador2-cavidade6"));
+		cavidadesJogador2[1] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador2-cavidade5"));
+		cavidadesJogador2[2] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador2-cavidade4"));
+		cavidadesJogador2[3] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador2-cavidade3"));
+		cavidadesJogador2[4] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador2-cavidade2"));
+		cavidadesJogador2[5] = new Cavidade((Button) tabuleiro.findViewWithTag("jogador2-cavidade1"));
+		Repositorio repositorioJogador2 = new Repositorio((Button) findViewById(R.id.repositorioJogador2));
 
 		jogador1 = new Jogador();
 		jogador1.setId(1);
 		jogador1.setNome(getString(R.string.nome_jogador_1));
 		jogador1.setCavidades(cavidadesJogador1);
-		jogador1.setRepositorio((Button) findViewById(R.id.repositorioJogador1));
+		jogador1.setRepositorio(repositorioJogador1);
 
 		jogador2 = new Jogador();
 		jogador2.setId(2);
 		jogador2.setNome(getString(R.string.nome_jogador_2));
 		jogador2.setCavidades(cavidadesJogador2);
-		jogador2.setRepositorio((Button) findViewById(R.id.repositorioJogador2));
+		jogador2.setRepositorio(repositorioJogador2);
 	}
 
-	private void habilitarBotoes(Button[] botoes, boolean habilitar) {
-		for (Button botao : botoes) {
-			botao.setEnabled(habilitar);
+	private void habilitarCavidadesDoJogador(Jogador jogador, boolean habilitar) {
+		for (Cavidade cavidade : jogador.getCavidades()) {
+			if (habilitar) {
+				cavidade.habilitar();
+			} else {
+				cavidade.desabilitar();
+			}
 		}
 	}
 
@@ -80,7 +89,7 @@ public class JogoActivity extends ActionBarActivity {
 		mostrarBotaoIniciar(false);
 		jogadorCorrente = jogador1;
 		informarJogadorCorrente();
-		habilitarBotoesDoJogadorCorrente();
+		habilitarCavidadesDoJogadorCorrente();
 	}
 
 	private void preencherSementesIniciais() {
@@ -89,10 +98,10 @@ public class JogoActivity extends ActionBarActivity {
 	}
 
 	private void preencherSementesIniciaisDoJogador(Jogador jogador) {
-		for (Button cavidade : jogador.getCavidades()) {
-			cavidade.setText(String.valueOf(NUM_SEMENTES_INICIAL_POR_CAVIDADE));
+		for (Cavidade cavidade : jogador.getCavidades()) {
+			cavidade.setNumeroDeSementes(NUM_SEMENTES_INICIAL_POR_CAVIDADE);
 		}
-		jogador.getRepositorio().setText("0");
+		jogador.getRepositorio().setNumeroDeSementes(0);
 	}
 
 	private void mostrarBotaoIniciar(boolean mostrar) {
@@ -112,9 +121,9 @@ public class JogoActivity extends ActionBarActivity {
 			elementoDaTela.setVisibility(View.GONE);
 	}
 
-	private void habilitarBotoesDoJogadorCorrente() {
-		habilitarBotoes(jogadorCorrente.getCavidades(), true);
-		habilitarBotoes(getJogadorEmEspera().getCavidades(), false);
+	private void habilitarCavidadesDoJogadorCorrente() {
+		habilitarCavidadesDoJogador(jogadorCorrente, true);
+		habilitarCavidadesDoJogador(getJogadorEmEspera(), false);
 	}
 
 	private Jogador getJogadorEmEspera() {
@@ -138,52 +147,67 @@ public class JogoActivity extends ActionBarActivity {
 	}
 
 	public void onClickButtonCavidade(View view) {
-		Button cavidadeClicada = (Button) view;
+		Cavidade cavidadeClicada = new Cavidade((Button) view);
 		// VALIDA CLIQUE
-		if (cavidadeClicada.getText().equals("0")) {
+		if (!cavidadeClicada.temSementes()) {
 			MensagemUtils.mostrarMensagemRapida(JogoActivity.this, "Jogador deve clicar em uma cavidade que tenha sementes");
 			return;
 		}
 
 		// COLHE E SEMEIA
-		int numeroDaCavidadeClicada = obterNumeroDaCavidade(cavidadeClicada);
-		int numSementes = jogadorCorrente.pegarSementesDaCavidade(numeroDaCavidadeClicada);
+		int numSementes = cavidadeClicada.pegarSementes();
 		semear(numSementes, cavidadeClicada);
 
 		// ESPECIAL: pega semente da casa do oponente
-		if (ultimoLocalOndeSemeou.getTag() != null &&
-			ultimoLocalOndeSemeou.getTag().toString().startsWith("jogador"+jogadorCorrente.getId()+"-cavidade") &&
-			ultimoLocalOndeSemeou.getText().equals("1")) {
+		if (ultimoLocalOndeSemeou instanceof Cavidade &&
+			jogadorCorrente.ehDonoDaCavidade( (Cavidade)ultimoLocalOndeSemeou ) &&
+			ultimoLocalOndeSemeou.getNumeroDeSementes() == 1) {
 			// Adicinou por último em uma cavidade do jogador corrente e que estava vazia:
 			// Então pega as sementes da cavidade da frente para o seu repositório.
 
-			int numeroDaCavidade = obterNumeroDaCavidade(ultimoLocalOndeSemeou);
-			int numSementesCavidadeDaFrente = getJogadorEmEspera().pegarSementesDaCavidade(numeroDaCavidade);
-			addSementes(jogadorCorrente.getRepositorio(), numSementesCavidadeDaFrente);
+			Cavidade cavidade = (Cavidade) ultimoLocalOndeSemeou;
+			int numeroDaCavidadeDaFrente = obterNumeroCavidadeDaFrente(cavidade); // Math.abs = módulo/valor absoluto
+			int numSementesCavidadeDaFrente = getJogadorEmEspera().pegarSementesDaCavidade(numeroDaCavidadeDaFrente);
+			jogadorCorrente.getRepositorio().adicionarSementes(numSementesCavidadeDaFrente);
 		}
 
-		//VALIDA FINAL DA PARTIDA
+		// VALIDA FINAL DA PARTIDA
 		if (terminouPartida()) {
-			habilitarBotoes(jogador1.getCavidades(), false);
-			habilitarBotoes(jogador2.getCavidades(), false);
+			habilitarCavidadesDoJogador(jogador1, false);
+			habilitarCavidadesDoJogador(jogador2, false);
 			mostrarBotaoIniciar(true);
 
 			Jogador vencedor = getJogadorComMaisPontos();
-			String mensagem = "O jogador " + vencedor.getNome() + " venceu com " + vencedor.getTotalSementes() + " sementes.";
+			String mensagem = "O jogador " + vencedor.getNome() + " venceu com " + vencedor.obterTotalDeSementes() + " sementes.";
 			MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "Resultado", mensagem);
 
-		} // SENÃO: PREPARA PRÓXIMA RODADA
+		} // SENÃO: PREPARA PRÓXIMA RODADA (ESPECIAL 2: se semeou por último no próprio repositório, não troca de jogador corrente)
 		else if (!ultimoLocalOndeSemeou.equals(jogadorCorrente.getRepositorio())) {
 			jogadorCorrente = getJogadorEmEspera();
 			informarJogadorCorrente();
-			habilitarBotoesDoJogadorCorrente();
+			habilitarCavidadesDoJogadorCorrente();
 		}
 
 		ultimoLocalOndeSemeou = null;
 	}
 
+	private int obterNumeroCavidadeDaFrente(Cavidade cavidade) {
+		return Math.abs( cavidade.getNumero() - (TOTAL_CAVIDADES_POR_JOGADOR+1) ); // Math.abs(i : int): retorna o módulo/valor absoluto do número
+//      OU:
+//		switch (cavidade.getNumero()) {
+//			case 1: return 6;
+//			case 2: return 5;
+//			case 3: return 4;
+//			case 4: return 3;
+//			case 5: return 2;
+//			case 6: return 1;
+//			default: Log.e("ERRO", "Informou número de cavidade inválido");
+//					 return 0;
+//		}
+	}
+
 	private Jogador getJogadorComMaisPontos() {
-		if (jogador1.getTotalSementes() > jogador2.getTotalSementes()) {
+		if (jogador1.obterTotalDeSementes() > jogador2.obterTotalDeSementes()) {
 			return jogador1;
 		} else {
 			return jogador2;
@@ -191,76 +215,44 @@ public class JogoActivity extends ActionBarActivity {
 	}
 
 	private boolean terminouPartida() {
-		return jogador1.getTotalSementesCavidades() == 0 || jogador2.getTotalSementesCavidades() == 0;
+		return jogador1.obterTotalSementesDasCavidades() == 0 ||
+			   jogador2.obterTotalSementesDasCavidades() == 0;
 	}
 
-	private void semear(int numSementes, Button cavidadeClicada) {
+	private void semear(int numSementes, Cavidade cavidadeClicada) {
 		int idJogadorAdicionarSemente = jogadorCorrente.getId();
 		ultimoLocalOndeSemeou = cavidadeClicada; // o local anterior ao que vou semear primeiro, é justamente a cavidade clicada..
 
 		while (numSementes > 0) {
-			Button localAdicionarSemente;
+			LocalDeSementes localAdicionarSemente;
 
 			if (ultimoLocalOndeSemeou.equals(jogadorCorrente.getRepositorio())) {
 				Jogador jogadorEmEspera = getJogadorEmEspera();
 				idJogadorAdicionarSemente = jogadorEmEspera.getId();
-				localAdicionarSemente = obterPrimeiraCavidadeDoJogador(jogadorEmEspera);
-
-			} else if (isUltimaCavidadeDoJogador(idJogadorAdicionarSemente, obterNumeroDaCavidade(ultimoLocalOndeSemeou))) {
-				if (idJogadorAdicionarSemente == jogadorCorrente.getId()) {
-					localAdicionarSemente = jogadorCorrente.getRepositorio();
-				} else {
-					// Pula o repositório do jogador em espera e add semente na 1ª cavidade do jogador corrente
-					idJogadorAdicionarSemente = jogadorCorrente.getId();
-					localAdicionarSemente = obterPrimeiraCavidadeDoJogador(jogadorCorrente);
-				}
+				localAdicionarSemente = jogadorEmEspera.obterCavidadePeloNumero(1);
 
 			} else {
-				int numeroCavidadeAddSemente = obterProximaCavidade(idJogadorAdicionarSemente, obterNumeroDaCavidade(ultimoLocalOndeSemeou));
-				int indiceCavidadeAddSemente = numeroCavidadeAddSemente - 1;
-				localAdicionarSemente = obterJogadorPeloId(idJogadorAdicionarSemente).getCavidades()[indiceCavidadeAddSemente];
+				Cavidade cavidade = (Cavidade) ultimoLocalOndeSemeou;
+
+				if (cavidade.getNumero() == TOTAL_CAVIDADES_POR_JOGADOR) {
+					if (idJogadorAdicionarSemente == jogadorCorrente.getId()) {
+						localAdicionarSemente = jogadorCorrente.getRepositorio();
+					} else {
+						// Pula o repositório do jogador em espera e add semente na 1ª cavidade do jogador corrente
+						idJogadorAdicionarSemente = jogadorCorrente.getId();
+						localAdicionarSemente = jogadorCorrente.obterCavidadePeloNumero(1);
+					}
+
+				} else {
+					int proximaCavidade = cavidade.getNumero()+1;
+					localAdicionarSemente = obterJogadorPeloId(idJogadorAdicionarSemente).obterCavidadePeloNumero(proximaCavidade);
+				}
 			}
 
 			numSementes--;
-			addSementes(localAdicionarSemente, 1);
+			localAdicionarSemente.adicionarSementes(1);
 			ultimoLocalOndeSemeou = localAdicionarSemente;
 		}
-	}
-
-	private Button obterPrimeiraCavidadeDoJogador(Jogador jogador) {
-		if (jogador.getId() == jogador1.getId()) {
-			return jogador.getCavidades()[0];
-		} else {
-			return jogador.getCavidades()[TOTAL_CAVIDADES_POR_JOGADOR-1];
-		}
-	}
-
-	private int obterNumeroDaCavidade(Button cavidade) {
-		String tag = cavidade.getTag().toString();
-		return Character.getNumericValue(tag.charAt(tag.length()-1));
-//      OU:
-//		String textoTagCavidade = cavidade.getTag().toString().split("-")[1];
-//		String strNumeroCavidade = textoTagCavidade.replace("cavidade", "");
-//		return Integer.parseInt(strNumeroCavidade);
-	}
-
-	private int obterProximaCavidade(int idJogador, int numeroDaCavidade) {
-		if (idJogador == jogador1.getId()) {
-			return numeroDaCavidade+1;
-		} else {
-			return numeroDaCavidade-1;
-		}
-	}
-
-	private boolean isUltimaCavidadeDoJogador(int idJogador, int numeroDaCavidade) {
-		return (idJogador == jogador1.getId() && numeroDaCavidade == TOTAL_CAVIDADES_POR_JOGADOR) ||
-			   (idJogador == jogador2.getId() && numeroDaCavidade == 1);
-	}
-
-	private void addSementes(Button local, int numSementesAdicionar) {
-		int numSementes = Integer.parseInt(local.getText().toString());
-		numSementes += numSementesAdicionar;
-		local.setText(String.valueOf(numSementes));
 	}
 
 	private void informarJogadorCorrente() {
