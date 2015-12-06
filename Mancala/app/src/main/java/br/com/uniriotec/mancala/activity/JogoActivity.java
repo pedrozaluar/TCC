@@ -1,16 +1,14 @@
 package br.com.uniriotec.mancala.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.com.uniriotec.mancala.R;
+import br.com.uniriotec.mancala.interfaceUtils.MensagemUtils;
 import br.com.uniriotec.mancala.model.Jogador;
 
 
@@ -143,7 +141,7 @@ public class JogoActivity extends ActionBarActivity {
 		Button cavidadeClicada = (Button) view;
 		// VALIDA CLIQUE
 		if (cavidadeClicada.getText().equals("0")) {
-			mostrarMensagemRapida("Jogador deve clicar em uma cavidade que tenha sementes");
+			MensagemUtils.mostrarMensagemRapida(JogoActivity.this, "Jogador deve clicar em uma cavidade que tenha sementes");
 			return;
 		}
 
@@ -172,7 +170,7 @@ public class JogoActivity extends ActionBarActivity {
 
 			Jogador vencedor = getJogadorComMaisPontos();
 			String mensagem = "O jogador " + vencedor.getNome() + " venceu com " + vencedor.getTotalSementes() + " sementes.";
-			mostrarMensagemResultado(mensagem);
+			MensagemUtils.mostrarCaixaDialogoSimples(JogoActivity.this, "Resultado", mensagem);
 
 		} // SENÃO: PREPARA PRÓXIMA RODADA
 		else if (!ultimoLocalOndeSemeou.equals(jogadorCorrente.getRepositorio())) {
@@ -268,32 +266,5 @@ public class JogoActivity extends ActionBarActivity {
 	private void informarJogadorCorrente() {
 		TextView txtNomeJogadorCorrente = (TextView) findViewById(R.id.txtNomeJogadorCorrente);
 		txtNomeJogadorCorrente.setText(jogadorCorrente.getNome());
-	}
-
-	/**
-	 * Abre um diálogo na tela informando o restultado da partida. Reinicia o jogo automaticamente
-	 * quando o usuário fechar o diálogo.
-	 * @param mensagem - mensagem a ser exibida
-	 */
-	private void mostrarMensagemResultado(String mensagem) {
-
-		// Cria a caixa de diálogo
-		AlertDialog.Builder builder = new AlertDialog.Builder(JogoActivity.this);
-		builder.setTitle("Resultado");
-		builder.setMessage(mensagem);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.dismiss(); // fecha o diálogo
-			}
-		});
-		AlertDialog alertDialog = builder.create();
-
-		// mostra a caixa de diálogo na tela
-		alertDialog.show();
-	}
-
-	private void mostrarMensagemRapida(String mensagem) {
-		Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
 	}
 }
