@@ -1,0 +1,9 @@
+<resources>
+	<string name="app_name">ControleFinanceiro</string>
+
+	<string name="hello_world">Hello world!</string>
+	<string name="action_settings">Settings</string>
+	<string name="label_mes">Mês:</string>
+	<string name="title_activity_apresenta_mes">ApresentaMesActivity</string>
+	<string name="title_activity_cadastra_movimento">CadastraMovimentoActivity</string>
+</resources>
