@@ -21,7 +21,7 @@
 		android:layout_marginBottom="20dp"/>
 
 	<TextView
-		android:text="@string/label_mes"
+		android:text="Mês:"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content" />
 
@@ -37,18 +37,20 @@
 		android:layout_height="wrap_content"
 		android:text="Ir"
 		android:layout_marginBottom="50dp"
-		android:onClick="onClickBtnEntrar"/>
+		android:onClick="onClickBotaoIr"/>
 
 	<Button
 		android:id="@+id/btnAdicionarMes"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Adicionar Mês"
-		android:layout_marginBottom="5dp"/>
+		android:layout_marginBottom="5dp"
+		android:onClick="onClickAdicionarMes"/>
 	<Button
 		android:id="@+id/btnRemoverUltimoMes"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Remover Último Mês"
-		android:layout_marginBottom="5dp"/>
+		android:layout_marginBottom="5dp"
+		android:onClick="onClickRemoverUltimoMes"/>
 </LinearLayout>

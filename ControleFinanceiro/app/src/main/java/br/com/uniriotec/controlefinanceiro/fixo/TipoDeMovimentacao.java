@@ -5,9 +5,9 @@ package br.com.uniriotec.controlefinanceiro.fixo;
  */
 public enum TipoDeMovimentacao {
 
+	VARIAVEL("Variável"),
 	FIXA("Fixa"),
-	PARCELADA("Parcelada"),
-	VARIAVEL("Variável");
+	PARCELADA("Parcelada");
 
 	private String descricao;
 

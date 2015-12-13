@@ -33,7 +33,7 @@ public enum Mes {
 		return descricao;
 	}
 
-	public Mes obterMesPeloNumero(int numero) {
+	public static Mes obterMesPeloNumero(int numero) {
 		for (Mes mes : Mes.values()) {
 			if (numero == mes.getNumero())
 				return mes;

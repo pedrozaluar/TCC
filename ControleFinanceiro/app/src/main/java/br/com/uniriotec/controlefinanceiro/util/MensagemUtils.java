@@ -34,6 +34,32 @@ public class MensagemUtils {
 	}
 
 	/**
+	 * Abre um diálogo na tela com botões "OK" e "Cancelar".
+	 * Clicando no botão "OK" o método passado como parâmetro 'onConfirm' é acionado.
+	 * Clicando no botão "Cancelar" o diálogo fecha sem executar nenhuma ação.
+	 * OBS: Método assíncrono. Ou seja, após abrir o diálogo continua executando as próximas linhas de código.
+	 * @param context - Activity que chamou o diálogo (ex: MinhaActivity.this)
+	 * @param mensagem - Mensagem do diálogo
+	 * @param onConfirm - Contém método acionado ao clicar no botão "OK" do diálogo
+	 */
+	public static void mostrarCaixaDialogoConfirmacao(Context context, String mensagem, DialogInterface.OnClickListener onConfirm) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("Confirmação");
+		builder.setMessage(mensagem);
+		builder.setPositiveButton("OK", onConfirm);
+		builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.dismiss();
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+
+	/**
 	 * Mostra uma mensagem por um curto período na tela e depois desaparece
 	 * @param context - MyActivity.class
 	 * @param mensagem

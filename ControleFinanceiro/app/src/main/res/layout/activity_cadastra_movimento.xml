@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/tela"
+                android:id="@+id/telaCadastroMovimento"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -20,7 +20,7 @@
 		android:textStyle="bold"
 		android:textColor="#008000"
 		android:gravity="center_horizontal"
-		android:layout_marginBottom="40dp" />
+		android:layout_marginBottom="20dp" />
 
 	<!-- *********************** TIPO MOVIMENTAÇÃO *********************** -->
 	<LinearLayout
@@ -28,7 +28,7 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:gravity="center"
-		android:layout_marginBottom="10dp">
+		android:layout_marginBottom="40dp">
 
 		<TextView
 			android:id="@+id/labelTipo"
@@ -61,6 +61,7 @@
 		<EditText
 			android:id="@+id/txtDescricao"
 			android:singleLine="true"
+			android:inputType="textCapSentences"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"/>
 	</LinearLayout>
@@ -83,6 +84,7 @@
 			android:layout_height="wrap_content"
 			android:inputType="number"
 			android:maxLength="2"
+			android:selectAllOnFocus="true"
 			android:gravity="center"
 			android:ems="10"/>
 
@@ -125,7 +127,7 @@
 		android:orientation="horizontal"
 		android:visibility="gone"
 		android:layout_marginTop="20dp"
-		android:tag="movimentacao-fixa">
+		android:tag="@string/tag_movimentacao_fixa">
 
 		<Switch
 			android:id="@+id/switchFinalizar"
@@ -140,7 +142,7 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:layout_marginTop="20dp"
-		android:tag="movimentacao-parcelada">
+		android:tag="@string/tag_movimentacao_parcelada">
 
 		<TextView
 			android:id="@+id/labelTotalParcelas"
@@ -156,6 +158,7 @@
 			android:gravity="center"
 			android:inputType="number"
 			android:maxLength="2"
+			android:selectAllOnFocus="true"
 			android:ems="10"/>
 
 	</LinearLayout>
@@ -164,7 +167,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:tag="movimentacao-parcelada">
+		android:tag="@string/tag_movimentacao_parcelada">
 
 		<TextView
 			android:id="@+id/labelParcelaCorrente"
@@ -180,7 +183,7 @@
 			android:gravity="center"
 			android:inputType="number"
 			android:maxLength="2"
-			android:text="1"
+			android:selectAllOnFocus="true"
 			android:ems="10"/>
 
 	</LinearLayout>
@@ -197,14 +200,16 @@
 			android:text="Salvar"
 			android:layout_weight="1"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+			android:layout_height="wrap_content"
+			android:onClick="onClickSalvar"/>
 
 		<Button
 			android:id="@+id/btnCancelar"
 			android:text="Cancelar"
 			android:layout_weight="1"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+			android:layout_height="wrap_content"
+			android:onClick="onClickCancelar"/>
 
 	</LinearLayout>
 </LinearLayout>

@@ -3,29 +3,38 @@ package br.com.uniriotec.controlefinanceiro.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import br.com.uniriotec.controlefinanceiro.util.Util;
+
 /**
  * Classe abstrata que representa uma movimentação (genérica)
  */
-public abstract class Movimentacao implements Serializable {
+public abstract class Movimentacao implements Serializable, Comparable {
 
-	private int dia;
+	private Integer dia;
 	private String descricao;
 	private boolean valorPositivo;
 	private boolean efetuada;
 
 	public Movimentacao() {
-		this.dia = 1;
 		this.valorPositivo = false;
 		this.efetuada = true;
 	}
 
 	public abstract BigDecimal getValor();
 
-	public int getDia() {
+	public String getValorDescr() {
+		return Util.obterDescricaoValor(getValor());
+	}
+
+	public Integer getDia() {
 		return dia;
 	}
 
-	public void setDia(int dia) {
+	public String getDiaDescr() {
+		return Util.obterDescricaoValor(dia);
+	}
+
+	public void setDia(Integer dia) {
 		this.dia = dia;
 	}
 
@@ -51,5 +60,11 @@ public abstract class Movimentacao implements Serializable {
 
 	public void setEfetuada(boolean efetuada) {
 		this.efetuada = efetuada;
+	}
+
+	@Override
+	public int compareTo(Object another) {
+		Movimentacao movimentacao2 = (Movimentacao) another;
+		return dia - movimentacao2.getDia();
 	}
 }

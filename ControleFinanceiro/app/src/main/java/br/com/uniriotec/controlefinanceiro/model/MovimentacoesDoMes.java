@@ -11,29 +11,19 @@ import br.com.uniriotec.controlefinanceiro.fixo.Mes;
 public class MovimentacoesDoMes implements Serializable {
 
 
-	private Mes mes;
-	private int ano;
+	private MesAno mesAno;
 	private List<Movimentacao> movimentacoes;
 
-	public MovimentacoesDoMes(Mes mes, int ano) {
-		this.mes = mes;
-		this.ano = ano;
+	public MovimentacoesDoMes(MesAno mesAno) {
+		this.mesAno = mesAno;
 	}
 
-	public Mes getMes() {
-		return mes;
+	public MesAno getMesAno() {
+		return mesAno;
 	}
 
-	public void setMes(Mes mes) {
-		this.mes = mes;
-	}
-
-	public int getAno() {
-		return ano;
-	}
-
-	public void setAno(int ano) {
-		this.ano = ano;
+	public void setMesAno(MesAno mesAno) {
+		this.mesAno = mesAno;
 	}
 
 	public List<Movimentacao> getMovimentacoes() {
@@ -46,6 +36,6 @@ public class MovimentacoesDoMes implements Serializable {
 
 	@Override
 	public String toString() {
-		return mes.getDescricao() + "/" + ano;
+		return mesAno.toString();
 	}
 }

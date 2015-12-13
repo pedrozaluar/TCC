@@ -1,48 +1,81 @@
 package br.com.uniriotec.controlefinanceiro.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.uniriotec.controlefinanceiro.R;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDao;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDaoMemory;
 import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
-import br.com.uniriotec.controlefinanceiro.fixo.Mes;
+import br.com.uniriotec.controlefinanceiro.model.MesAno;
 import br.com.uniriotec.controlefinanceiro.model.MovimentacoesDoMes;
+import br.com.uniriotec.controlefinanceiro.util.MensagemUtils;
 
 
 public class InicioActivity extends Activity {
+
+	private MovimentacoesDoMesDao movimentacoesDoMesDao;
+
+	public InicioActivity() {
+		movimentacoesDoMesDao = new MovimentacoesDoMesDaoMemory();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inicio);
-
-		List<MovimentacoesDoMes> movimentacoesMes = new ArrayList<MovimentacoesDoMes>();
-		movimentacoesMes.add(new MovimentacoesDoMes(Mes.AGOSTO, 2015));
-		movimentacoesMes.add(new MovimentacoesDoMes(Mes.SETEMBRO, 2015));
-		movimentacoesMes.add(new MovimentacoesDoMes(Mes.OUTUBRO, 2015));
-		movimentacoesMes.add(new MovimentacoesDoMes(Mes.NOVEMBRO, 2015));
-		movimentacoesMes.add(new MovimentacoesDoMes(Mes.DEZEMBRO, 2015));
-
-//		String[] meses = {"Agosto/2015", "Setembro/2015", "Outubro/2015", "Novembro/2015"};
-		ArrayAdapter<MovimentacoesDoMes> adapter = new ArrayAdapter<MovimentacoesDoMes>(this, android.R.layout.simple_spinner_item, movimentacoesMes);
-
-		Spinner seletorDeMes = (Spinner) findViewById(R.id.seletorDeMes);
-		seletorDeMes.setAdapter(adapter);
+		carregarSeletorDeMes();
 	}
 
-	public void onClickBtnEntrar(View view) {
-		Spinner listaMeses = (Spinner) findViewById(R.id.seletorDeMes);
-		MovimentacoesDoMes mesSelecionado = (MovimentacoesDoMes) listaMeses.getSelectedItem();
+	public void onClickBotaoIr(View view) {
+		Spinner seletorDoMes = (Spinner) findViewById(R.id.seletorDeMes);
+		MovimentacoesDoMes mesMovimentacaoSelecionado = (MovimentacoesDoMes) seletorDoMes.getSelectedItem();
 
 		Intent intent = new Intent(this, ApresentaMesActivity.class);
-		intent.putExtra(Constantes.PARAM_MES_SELECIONADO, mesSelecionado);
+		intent.putExtra(Constantes.PARAM_MES_MOVIMENTACAO, mesMovimentacaoSelecionado);
 		startActivity(intent);
+	}
+
+	public void onClickAdicionarMes(View view) {
+		List<MovimentacoesDoMes> movimentacoesDosMeses = movimentacoesDoMesDao.obterMovimentacoesDosMeses();
+		MovimentacoesDoMes ultimoMesMovimentacoes = movimentacoesDosMeses.get(movimentacoesDosMeses.size()-1);
+		MesAno ultimoMesAnoDeMovimentacoes = ultimoMesMovimentacoes.getMesAno();
+		MesAno proximoMesAnoDeMovimentacoes = MesAno.obterProximoMesAno(ultimoMesAnoDeMovimentacoes);
+
+		movimentacoesDoMesDao.criarMesDeMovimentacoes(proximoMesAnoDeMovimentacoes);
+		carregarSeletorDeMes();
+		MensagemUtils.mostrarMensagemRapida(this, "Mês de " + proximoMesAnoDeMovimentacoes + " adicionado com sucesso!");
+	}
+
+	public void onClickRemoverUltimoMes(View view) {
+		DialogInterface.OnClickListener onConfirmRemover = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				movimentacoesDoMesDao.removerUltimoMesDeMovimentacoes();
+				carregarSeletorDeMes();
+			}
+		};
+		MensagemUtils.mostrarCaixaDialogoConfirmacao(this, "Deseja mesmo remover o último mês de movimentações?", onConfirmRemover);
+	}
+
+	private void carregarSeletorDeMes() {
+		List<MovimentacoesDoMes> movimentacoesDosMeses = movimentacoesDoMesDao.obterMovimentacoesDosMeses();
+
+		if (movimentacoesDosMeses.isEmpty()) {
+			MesAno mesAnoAtual = MesAno.obterMesAnoAtual();
+			movimentacoesDoMesDao.criarMesDeMovimentacoes(mesAnoAtual);
+			movimentacoesDosMeses = movimentacoesDoMesDao.obterMovimentacoesDosMeses();
+		}
+
+		ArrayAdapter<MovimentacoesDoMes> adapter = new ArrayAdapter<MovimentacoesDoMes>(this, android.R.layout.simple_spinner_item, movimentacoesDosMeses);
+		Spinner seletorDeMes = (Spinner) findViewById(R.id.seletorDeMes);
+		seletorDeMes.setAdapter(adapter);
 	}
 }

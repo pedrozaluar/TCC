@@ -3,7 +3,8 @@
 
 	<string name="hello_world">Hello world!</string>
 	<string name="action_settings">Settings</string>
-	<string name="label_mes">Mês:</string>
 	<string name="title_activity_apresenta_mes">ApresentaMesActivity</string>
 	<string name="title_activity_cadastra_movimento">CadastraMovimentoActivity</string>
+	<string name="tag_movimentacao_parcelada">movimentacao-parcelada</string>
+	<string name="tag_movimentacao_fixa">movimentacao-fixa</string>
 </resources>

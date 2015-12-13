@@ -6,10 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.uniriotec.controlefinanceiro.R;
 import br.com.uniriotec.controlefinanceiro.model.Movimentacao;
 import br.com.uniriotec.controlefinanceiro.model.MovimentacaoVariavel;
@@ -23,9 +19,9 @@ public class ApresentaMesActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apresenta_mes);
 
-		MovimentacoesDoMes mesSelecionado = (MovimentacoesDoMes) getIntent().getSerializableExtra(Constantes.PARAM_MES_SELECIONADO);
+		MovimentacoesDoMes mesMovimentacoes = (MovimentacoesDoMes) getIntent().getSerializableExtra(Constantes.PARAM_MES_MOVIMENTACAO);
 		TextView labelTitulo = (TextView) findViewById(R.id.labelTitulo);
-		labelTitulo.setText(mesSelecionado.toString());
+		labelTitulo.setText(mesMovimentacoes.toString());
 
 //		List<Movimentacao> movimentacoes = new ArrayList<Movimentacao>();
 //		movimentacoes.add(new MovimentacaoVariavel(1, "Lanche (Hamburguer)", BigDecimal.valueOf(23.50)));

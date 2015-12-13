@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
+import br.com.uniriotec.controlefinanceiro.util.Util;
 
 /**
  * Classe que representa uma movimentação que sua quitação (em caso de dívida) ou recebimento (em caso de crédito)
@@ -12,8 +13,8 @@ import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
 public class MovimentacaoParcelada extends Movimentacao implements Serializable {
 
 	private BigDecimal valorTotal;
-	private int totalParcelas;
-	private int parcelaCorrente;
+	private Integer totalParcelas;
+	private Integer parcelaCorrente;
 
 	@Override
 	public BigDecimal getValor() {
@@ -28,19 +29,27 @@ public class MovimentacaoParcelada extends Movimentacao implements Serializable 
 		this.valorTotal = valorTotal;
 	}
 
-	public int getTotalParcelas() {
+	public Integer getTotalParcelas() {
 		return totalParcelas;
 	}
 
-	public void setTotalParcelas(int totalParcelas) {
+	public String getTotalParcelasDescr() {
+		return Util.obterDescricaoValor(totalParcelas);
+	}
+
+	public void setTotalParcelas(Integer totalParcelas) {
 		this.totalParcelas = totalParcelas;
 	}
 
-	public int getParcelaCorrente() {
+	public Integer getParcelaCorrente() {
 		return parcelaCorrente;
 	}
 
-	public void setParcelaCorrente(int parcelaCorrente) {
+	public String getParcelaCorrenteDescr() {
+		return Util.obterDescricaoValor(parcelaCorrente);
+	}
+
+	public void setParcelaCorrente(Integer parcelaCorrente) {
 		this.parcelaCorrente = parcelaCorrente;
 	}
 }
