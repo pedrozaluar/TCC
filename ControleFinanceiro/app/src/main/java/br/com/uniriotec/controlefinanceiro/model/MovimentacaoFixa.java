@@ -1,12 +1,13 @@
 package br.com.uniriotec.controlefinanceiro.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Classe que representa uma movimentação que é mensal, ou seja, Todo mês o usuário faz aquela mesma
  * movimentação. Ex: Salário, aluguel, conta de internet, luz, etc.
  */
-public class MovimentacaoFixa extends Movimentacao {
+public class MovimentacaoFixa extends Movimentacao implements Serializable {
 
 	private BigDecimal valor;
 	private boolean ultimoMes;

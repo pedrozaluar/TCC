@@ -1,14 +1,15 @@
 package br.com.uniriotec.controlefinanceiro.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-import br.com.uniriotec.controlefinanceiro.util.Constantes;
+import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
 
 /**
  * Classe que representa uma movimentação que sua quitação (em caso de dívida) ou recebimento (em caso de crédito)
  * foi dividida em parcelas. Ex: Compra de uma televisão dividida em 10 parcelas/prestações
  */
-public class MovimentacaoParcelada extends Movimentacao {
+public class MovimentacaoParcelada extends Movimentacao implements Serializable {
 
 	private BigDecimal valorTotal;
 	private int totalParcelas;

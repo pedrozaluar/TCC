@@ -1,4 +1,4 @@
-package br.com.uniriotec.controlefinanceiro.util;
+package br.com.uniriotec.controlefinanceiro.fixo;
 
 import java.math.BigDecimal;
 
@@ -11,5 +11,5 @@ public class Constantes {
 	public static final int BIGDECIMAL_ROUNDING_MODE = BigDecimal.ROUND_DOWN;
 
 	public static final String PARAM_MES_SELECIONADO = "mes_selecionado";
-	public static final String PARAM_MOVIMENTO_VALOR_POSITIVO = "movimento_valor_positivo";
+	public static final String PARAM_MOVIMENTACAO = "movimentacao";
 }

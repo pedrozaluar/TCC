@@ -1,11 +1,12 @@
 package br.com.uniriotec.controlefinanceiro.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Classe abstrata que representa uma movimentação (genérica)
  */
-public abstract class Movimentacao {
+public abstract class Movimentacao implements Serializable {
 
 	private int dia;
 	private String descricao;

@@ -1,4 +1,4 @@
-package br.com.uniriotec.controlefinanceiro.interfaceUtils;
+package br.com.uniriotec.controlefinanceiro.util;
 
 import android.app.AlertDialog;
 import android.content.Context;

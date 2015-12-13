@@ -1,21 +1,210 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/tela"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="br.com.uniriotec.controlefinanceiro.activity.CadastraMovimentoActivity">
 
+	<!-- *********************** TÍTULO *********************** -->
 	<TextView
 		android:id="@+id/labelTitulo"
-		android:text="Novo\nCrédito"
+		android:text="Novo Crédito"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:textSize="45dp"
+		android:textSize="30dp"
 		android:textStyle="bold"
+		android:textColor="#008000"
 		android:gravity="center_horizontal"
 		android:layout_marginBottom="40dp" />
 
-</RelativeLayout>
+	<!-- *********************** TIPO MOVIMENTAÇÃO *********************** -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center"
+		android:layout_marginBottom="10dp">
+
+		<TextView
+			android:id="@+id/labelTipo"
+			android:text="Tipo:"
+			android:textStyle="bold"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		<Spinner
+			android:id="@+id/seletorTipoDeMovimentacao"
+			android:layout_width="200dp"
+			android:layout_height="wrap_content"/>
+
+	</LinearLayout>
+
+	<!-- *********************** FORMULÁRIO *********************** -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/labelDescricao"
+			android:text="Descrição:"
+			android:layout_width="90dp"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		<EditText
+			android:id="@+id/txtDescricao"
+			android:singleLine="true"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/labelDia"
+			android:text="Dia:"
+			android:layout_width="90dp"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		<EditText
+			android:id="@+id/txtDia"
+			android:layout_width="70dp"
+			android:layout_height="wrap_content"
+			android:inputType="number"
+			android:maxLength="2"
+			android:gravity="center"
+			android:ems="10"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/labelValor"
+			android:text="Valor (R$):"
+			android:layout_width="90dp"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		<EditText
+			android:id="@+id/txtValor"
+			android:inputType="numberDecimal"
+			android:hint="0.00"
+			android:gravity="right"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:ems="10"/>
+
+		<Switch
+			android:id="@+id/switchEfetuada"
+			android:text="Pago"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:checked="true"/>
+	</LinearLayout>
+
+	<!-- *********************** CAMPOS MOVIMENTAÇÃO FIXA *********************** -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:visibility="gone"
+		android:layout_marginTop="20dp"
+		android:tag="movimentacao-fixa">
+
+		<Switch
+			android:id="@+id/switchFinalizar"
+			android:text="Finalizar"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+	</LinearLayout>
+
+	<!-- *********************** CAMPOS MOVIMENTAÇÃO PARCELADA *********************** -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginTop="20dp"
+		android:tag="movimentacao-parcelada">
+
+		<TextView
+			android:id="@+id/labelTotalParcelas"
+			android:text="Parcelas (total):"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		<EditText
+			android:id="@+id/txtTotalParcelas"
+			android:layout_width="70dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:inputType="number"
+			android:maxLength="2"
+			android:ems="10"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:tag="movimentacao-parcelada">
+
+		<TextView
+			android:id="@+id/labelParcelaCorrente"
+			android:text="Parcela (corrente):"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		<EditText
+			android:id="@+id/txtParcelaCorrente"
+			android:layout_width="70dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:inputType="number"
+			android:maxLength="2"
+			android:text="1"
+			android:ems="10"/>
+
+	</LinearLayout>
+
+	<!-- *********************** BOTÕES *********************** -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginTop="50dp">
+
+		<Button
+			android:id="@+id/btnSalvar"
+			android:text="Salvar"
+			android:layout_weight="1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+		<Button
+			android:id="@+id/btnCancelar"
+			android:text="Cancelar"
+			android:layout_weight="1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+	</LinearLayout>
+</LinearLayout>
