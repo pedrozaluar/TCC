@@ -10,6 +10,7 @@ import br.com.uniriotec.controlefinanceiro.util.Util;
  */
 public abstract class Movimentacao implements Serializable, Comparable {
 
+	private Integer id;
 	private Integer dia;
 	private String descricao;
 	private boolean valorPositivo;
@@ -18,6 +19,14 @@ public abstract class Movimentacao implements Serializable, Comparable {
 	public Movimentacao() {
 		this.valorPositivo = false;
 		this.efetuada = true;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public abstract BigDecimal getValor();

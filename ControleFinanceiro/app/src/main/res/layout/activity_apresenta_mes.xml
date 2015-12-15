@@ -25,7 +25,7 @@
 		android:textStyle="bold"
 		android:gravity="center_horizontal"
 		android:layout_marginBottom="40dp" />
-
+<!--
 	<TableLayout
 		android:layout_width="match_parent"
 		android:layout_height="300dp"
@@ -106,9 +106,47 @@
 				android:text="R$ -18,30" />
 		</TableRow>
 	</TableLayout>
+-->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView
+			android:layout_width="@dimen/largura_coluna_dia"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:background="@color/cor_fundo_cabecalho_tabela_movimentacoes"
+			android:layout_margin="1dp"
+			android:paddingTop="3dp"
+			android:paddingBottom="3dp"
+			android:gravity="center"
+			android:text="Dia:"/>
+		<TextView
+			android:layout_width="@dimen/largura_coluna_descricao"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:background="@color/cor_fundo_cabecalho_tabela_movimentacoes"
+			android:layout_margin="1dp"
+			android:padding="3dp"
+			android:text="Descrição:" />
+		<TextView
+			android:layout_width="@dimen/largura_coluna_valor"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:background="@color/cor_fundo_cabecalho_tabela_movimentacoes"
+			android:layout_margin="1dp"
+			android:padding="3dp"
+			android:gravity="center"
+			android:text="Valor:" />
+	</LinearLayout>
+
+	<ListView
+		android:id="@+id/lista_movimentacoes"
+		android:layout_width="match_parent"
+		android:layout_height="250dp"></ListView>
 
 	<LinearLayout
-		android:layout_marginTop="30dp"
+		android:layout_marginTop="20dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 

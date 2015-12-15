@@ -1,6 +1,7 @@
 package br.com.uniriotec.controlefinanceiro.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.uniriotec.controlefinanceiro.fixo.Mes;
@@ -16,6 +17,11 @@ public class MovimentacoesDoMes implements Serializable {
 
 	public MovimentacoesDoMes(MesAno mesAno) {
 		this.mesAno = mesAno;
+		this.movimentacoes = new ArrayList<Movimentacao>();
+	}
+
+	public int getId() {
+		return mesAno.getId();
 	}
 
 	public MesAno getMesAno() {

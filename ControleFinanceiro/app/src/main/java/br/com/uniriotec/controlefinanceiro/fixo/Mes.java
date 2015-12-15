@@ -29,6 +29,14 @@ public enum Mes {
 		return numero;
 	}
 
+	public String getNumero2Digits() {
+		if (numero < 10) {
+			return "0" + numero;
+		} else {
+			return String.valueOf(numero);
+		}
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}

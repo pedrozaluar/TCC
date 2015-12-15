@@ -18,6 +18,11 @@ public class MesAno implements Serializable {
 		this.ano = ano;
 	}
 
+	public int getId() {
+		String idStr = String.valueOf(ano) + mes.getNumero2Digits();
+		return Integer.parseInt(idStr);
+	}
+
 	public Mes getMes() {
 		return mes;
 	}

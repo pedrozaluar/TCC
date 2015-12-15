@@ -8,4 +8,12 @@
 	<color name="cor_credito">#008000</color>
 	<color name="cor_debito">#BB0000</color>
 
+	<color name="cor_fundo_cabecalho_tabela_movimentacoes">#0FB7FF</color>
+	<color name="cor_fundo_linha_tabela_movimentacoes">#D0EAFD</color>
+
+	<color name="cor_valor_positivo_efetuado">#179735</color>
+	<color name="cor_valor_positivo_nao_efetuado">#80179735</color>
+	<color name="cor_valor_negativo_efetuado">#BB0000</color>
+	<color name="cor_valor_negativo_nao_efetuado">#80FF0000</color>
+
 </resources>

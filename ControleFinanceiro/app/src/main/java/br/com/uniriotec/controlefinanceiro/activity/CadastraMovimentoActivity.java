@@ -12,28 +12,37 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import br.com.uniriotec.controlefinanceiro.R;
+import br.com.uniriotec.controlefinanceiro.activity.helper.FormularioMovimentacaoHelper;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDao;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDaoMemory;
 import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
 import br.com.uniriotec.controlefinanceiro.fixo.TipoDeMovimentacao;
 import br.com.uniriotec.controlefinanceiro.model.Movimentacao;
-import br.com.uniriotec.controlefinanceiro.model.MovimentacaoFixa;
-import br.com.uniriotec.controlefinanceiro.model.MovimentacaoParcelada;
-import br.com.uniriotec.controlefinanceiro.util.Util;
 
 public class CadastraMovimentoActivity extends Activity {
+
+	private Movimentacao movimentacao;
+	private MovimentacoesDoMesDao movimentacoesDoMesDao;
+	private FormularioMovimentacaoHelper formularioHelper;
+
+	public CadastraMovimentoActivity() {
+		movimentacoesDoMesDao = new MovimentacoesDoMesDaoMemory();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cadastra_movimento);
 
-		Movimentacao movimentacao = (Movimentacao) getIntent().getSerializableExtra(Constantes.PARAM_MOVIMENTACAO);
-		carregarTela(movimentacao);
+		formularioHelper = new FormularioMovimentacaoHelper(this);
+		movimentacao = (Movimentacao) getIntent().getSerializableExtra(Constantes.PARAM_MOVIMENTACAO);
+		carregarTela();
 	}
 
-	private void carregarTela(Movimentacao movimentacao) {
+	private void carregarTela() {
 		mudarLayoutCreditoOuDebito(movimentacao.isValorPositivo());
 		carregarSeletorTipoDeMovimentacao();
-		preencherCamposFormulario(movimentacao);
+		formularioHelper.colocaNoFormulario(movimentacao);
 	}
 
 	private void mudarLayoutCreditoOuDebito(boolean isCredito) {
@@ -53,33 +62,6 @@ public class CadastraMovimentoActivity extends Activity {
 			switchEfetuada.setText("Pago");
 			labelTitulo.setTextColor(getResources().getColor(R.color.cor_debito));
 			txtValor.setTextColor(getResources().getColor(R.color.cor_debito));
-		}
-	}
-
-	private void preencherCamposFormulario(Movimentacao movimentacao) {
-		EditText txtDescricao = (EditText) findViewById(R.id.txtDescricao);
-		EditText txtDia = (EditText) findViewById(R.id.txtDia);
-		EditText txtValor = (EditText) findViewById(R.id.txtValor);
-		Switch switchEfetuada = (Switch) findViewById(R.id.switchEfetuada);
-
-		txtDescricao.setText(movimentacao.getDescricao());
-		txtDia.setText(movimentacao.getDiaDescr());
-		txtValor.setText(movimentacao.getValorDescr());
-		switchEfetuada.setChecked(movimentacao.isEfetuada());
-
-		if (movimentacao instanceof MovimentacaoFixa) {
-			MovimentacaoFixa movimentacaoFixa = (MovimentacaoFixa) movimentacao;
-			Switch switchFinalizar = (Switch) findViewById(R.id.switchFinalizar);
-
-			switchFinalizar.setChecked(movimentacaoFixa.isUltimoMes());
-
-		} else if (movimentacao instanceof MovimentacaoParcelada) {
-			MovimentacaoParcelada movimentacaoParcelada = (MovimentacaoParcelada) movimentacao;
-			EditText txtTotalParcelas = (EditText) findViewById(R.id.txtTotalParcelas);
-			EditText txtParcelaCorrente = (EditText) findViewById(R.id.txtParcelaCorrente);
-
-			txtTotalParcelas.setText(movimentacaoParcelada.getTotalParcelasDescr());
-			txtParcelaCorrente.setText(movimentacaoParcelada.getParcelaCorrenteDescr());
 		}
 	}
 
@@ -140,8 +122,17 @@ public class CadastraMovimentoActivity extends Activity {
 	}
 
 	public void onClickSalvar(View view) {
-		// salva
-		finish();
+		if (formularioHelper.validarCampos()) {
+			formularioHelper.colocaNaMovimentacao(movimentacao);
+			int idMesMovimentacoes = getIntent().getIntExtra(Constantes.PARAM_ID_MES_MOVIMENTACOES, 0);
+
+			if (movimentacao.getId() == null) {
+				movimentacoesDoMesDao.inserirMovimentacaoMes(idMesMovimentacoes, movimentacao);
+			} else {
+				movimentacoesDoMesDao.alterarMovimentacaoMes(movimentacao);
+			}
+			finish();
+		}
 	}
 
 	public void onClickCancelar(View view) {

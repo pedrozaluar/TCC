@@ -2,6 +2,9 @@ package br.com.uniriotec.controlefinanceiro.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
+import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
 
 /**
  * Classe de utilidades
@@ -9,7 +12,8 @@ import java.text.DecimalFormat;
 public class Util {
 
 	public static String toString(BigDecimal valor) {
-		return new DecimalFormat("#,##").format(valor);
+//		NumberFormat.getCurrencyInstance().format(valor);
+		return new DecimalFormat("#,##0.00").format(valor);
 	}
 
 	public static String obterDescricaoValor(Integer valor) {
@@ -24,5 +28,11 @@ public class Util {
 			return "";
 		else
 			return toString(valor);
+	}
+
+	public static BigDecimal toBigDecimal(String valorStr) {
+		BigDecimal valor = new BigDecimal(valorStr.replace(",", "."));
+		valor = valor.setScale(Constantes.BIGDECIMAL_SCALE, Constantes.BIGDECIMAL_ROUNDING_MODE);
+		return valor;
 	}
 }
