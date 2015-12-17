@@ -16,7 +16,9 @@ public interface MovimentacoesDoMesDao {
 
 	void removerUltimoMesDeMovimentacoes();
 
-	void inserirMovimentacaoMes(int idMesMovimentacoes, Movimentacao movimentacao);
+	List<Movimentacao> obterMovimentacoesDoMes(MesAno mesAno);
 
-	void alterarMovimentacaoMes(Movimentacao movimentacao);
+	void inserirMovimentacao(int idMesMovimentacoes, Movimentacao movimentacao);
+
+	void alterarMovimentacao(Movimentacao movimentacao);
 }

@@ -70,5 +70,4 @@ public class MovimentacaoAdapter extends ArrayAdapter<Movimentacao>{
 			}
 		}
 	}
-
 }

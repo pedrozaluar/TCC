@@ -6,7 +6,7 @@
 	<TextView
 		android:id="@+id/txtDia"
 		android:layout_width="@dimen/largura_coluna_dia"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:background="@color/cor_fundo_linha_tabela_movimentacoes"
 		android:layout_margin="1dp"
 		android:paddingTop="3dp"
@@ -15,14 +15,14 @@
 	<TextView
 		android:id="@+id/txtDescricao"
 		android:layout_width="@dimen/largura_coluna_descricao"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:background="@color/cor_fundo_linha_tabela_movimentacoes"
 		android:layout_margin="1dp"
 		android:padding="3dp" />
 	<TextView
 		android:id="@+id/txtValor"
 		android:layout_width="@dimen/largura_coluna_valor"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:background="@color/cor_fundo_linha_tabela_movimentacoes"
 		android:textStyle="bold"
 		android:layout_margin="1dp"

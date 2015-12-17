@@ -52,4 +52,15 @@ public class MesAno implements Serializable {
 		}
 		return new MesAno(proximoMes, anoProximoMes);
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if (other == null || getClass() != other.getClass())
+			return false;
+
+		MesAno mesAno = (MesAno) other;
+		return this.getId() == mesAno.getId();
+	}
 }

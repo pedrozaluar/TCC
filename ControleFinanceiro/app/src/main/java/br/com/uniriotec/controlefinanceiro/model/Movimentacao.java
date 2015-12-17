@@ -35,6 +35,10 @@ public abstract class Movimentacao implements Serializable, Comparable {
 		return Util.obterDescricaoValor(getValor());
 	}
 
+	public String getValorEdicao() {
+		return Util.obterDescricaoValorEdicao(getValor());
+	}
+
 	public Integer getDia() {
 		return dia;
 	}

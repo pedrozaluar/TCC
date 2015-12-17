@@ -45,7 +45,7 @@ public class InicioActivity extends Activity {
 
 	public void onClickAdicionarMes(View view) {
 		List<MovimentacoesDoMes> movimentacoesDosMeses = movimentacoesDoMesDao.obterMovimentacoesDosMeses();
-		MovimentacoesDoMes ultimoMesMovimentacoes = movimentacoesDosMeses.get(movimentacoesDosMeses.size()-1);
+		MovimentacoesDoMes ultimoMesMovimentacoes = movimentacoesDosMeses.get(0);
 		MesAno ultimoMesAnoDeMovimentacoes = ultimoMesMovimentacoes.getMesAno();
 		MesAno proximoMesAnoDeMovimentacoes = MesAno.obterProximoMesAno(ultimoMesAnoDeMovimentacoes);
 

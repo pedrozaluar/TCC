@@ -19,6 +19,8 @@ import br.com.uniriotec.controlefinanceiro.util.Util;
  */
 public class FormularioMovimentacaoHelper {
 
+	private Activity activity;
+
 	private Spinner seletorTipoDeMovimentacao;
 	private EditText txtDescricao;
 	private EditText txtDia;
@@ -49,7 +51,7 @@ public class FormularioMovimentacaoHelper {
 
 		txtDescricao.setText(movimentacao.getDescricao());
 		txtDia.setText(movimentacao.getDiaDescr());
-		txtValor.setText(movimentacao.getValorDescr());
+		txtValor.setText(movimentacao.getValorEdicao());
 		switchEfetuada.setChecked(movimentacao.isEfetuada());
 
 		if (movimentacao instanceof MovimentacaoFixa) {
@@ -64,7 +66,7 @@ public class FormularioMovimentacaoHelper {
 		}
 	}
 
-	public void colocaNaMovimentacao(Movimentacao movimentacao) {
+	public void colocaDadosNaMovimentacao(Movimentacao movimentacao) {
 		movimentacao.setDescricao(txtDescricao.getText().toString());
 		movimentacao.setDia(Integer.parseInt(txtDia.getText().toString()));
 		movimentacao.setEfetuada(switchEfetuada.isChecked());
@@ -94,8 +96,16 @@ public class FormularioMovimentacaoHelper {
 		}
 	}
 
-	private Activity activity;
 	public boolean validarCampos() {
+//		if (txtDia.getText().toString().length() == 0) {
+//			MensagemUtils.mostrarMensagemRapida(activity, "Campo 'Dia' não preenchido!");
+//			return false;
+//		}
+//
+//		int dia = Integer.parseInt(txtDia.getText().toString());
+//		int parcelaCorrente = Integer.parseInt(txtParcelaCorrente.getText().toString());
+//		int totalParcelas = Integer.parseInt(txtTotalParcelas.getText().toString());
+
 		MensagemUtils.mostrarMensagemRapida(activity, "Falta implementar validação dos campos");
 		return true;
 	}

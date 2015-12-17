@@ -11,11 +11,6 @@ import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
  */
 public class Util {
 
-	public static String toString(BigDecimal valor) {
-//		NumberFormat.getCurrencyInstance().format(valor);
-		return new DecimalFormat("#,##0.00").format(valor);
-	}
-
 	public static String obterDescricaoValor(Integer valor) {
 		if (valor == null)
 			return "";
@@ -27,7 +22,15 @@ public class Util {
 		if (valor == null)
 			return "";
 		else
-			return toString(valor);
+			return new DecimalFormat("#,##0.00").format(valor);
+//		    return NumberFormat.getCurrencyInstance().format(valor);
+	}
+
+	public static String obterDescricaoValorEdicao(BigDecimal valor) {
+		if (valor == null)
+			return "";
+		else
+			return new DecimalFormat("0.00").format(valor).replace(",", ".");
 	}
 
 	public static BigDecimal toBigDecimal(String valorStr) {

@@ -123,13 +123,13 @@ public class CadastraMovimentoActivity extends Activity {
 
 	public void onClickSalvar(View view) {
 		if (formularioHelper.validarCampos()) {
-			formularioHelper.colocaNaMovimentacao(movimentacao);
+			formularioHelper.colocaDadosNaMovimentacao(movimentacao);
 			int idMesMovimentacoes = getIntent().getIntExtra(Constantes.PARAM_ID_MES_MOVIMENTACOES, 0);
 
 			if (movimentacao.getId() == null) {
-				movimentacoesDoMesDao.inserirMovimentacaoMes(idMesMovimentacoes, movimentacao);
+				movimentacoesDoMesDao.inserirMovimentacao(idMesMovimentacoes, movimentacao);
 			} else {
-				movimentacoesDoMesDao.alterarMovimentacaoMes(movimentacao);
+				movimentacoesDoMesDao.alterarMovimentacao(movimentacao);
 			}
 			finish();
 		}

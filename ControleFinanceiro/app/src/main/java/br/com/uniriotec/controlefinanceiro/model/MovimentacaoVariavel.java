@@ -16,8 +16,9 @@ public class MovimentacaoVariavel extends Movimentacao implements Serializable {
 		super();  // Chama o contrutor vazio da classe base
 	}
 
-	public MovimentacaoVariavel(int dia, String descricao, BigDecimal valor, boolean isValorPositivo) {
+	public MovimentacaoVariavel(int id, int dia, String descricao, BigDecimal valor, boolean isValorPositivo) {
 		super(); // Chama o contrutor vazio da classe base
+		setId(id);
 		setDia(dia);
 		setDescricao(descricao);
 		this.valor = valor;
