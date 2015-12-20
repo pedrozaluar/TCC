@@ -11,8 +11,8 @@ import br.com.uniriotec.controlefinanceiro.model.Movimentacao;
 import br.com.uniriotec.controlefinanceiro.model.MovimentacaoFixa;
 import br.com.uniriotec.controlefinanceiro.model.MovimentacaoParcelada;
 import br.com.uniriotec.controlefinanceiro.model.MovimentacaoVariavel;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 import br.com.uniriotec.controlefinanceiro.util.MensagemUtils;
-import br.com.uniriotec.controlefinanceiro.util.Util;
 
 /**
  * Classe de apoio para manuseio do formulário de cadastro de movimentação
@@ -76,18 +76,18 @@ public class FormularioMovimentacaoHelper {
 		switch (tipoDeMovimentacao) {
 			case VARIAVEL:
 				MovimentacaoVariavel movimentacaoVariavel = (MovimentacaoVariavel) movimentacao;
-				movimentacaoVariavel.setValor(Util.toBigDecimal(txtValor.getText().toString()));
+				movimentacaoVariavel.setValor(InterfaceUtils.toBigDecimal(txtValor.getText().toString()));
 				break;
 
 			case FIXA:
 				MovimentacaoFixa movimentacaoFixa = (MovimentacaoFixa) movimentacao;
-				movimentacaoFixa.setValor(Util.toBigDecimal(txtValor.getText().toString()));
+				movimentacaoFixa.setValor(InterfaceUtils.toBigDecimal(txtValor.getText().toString()));
 				movimentacaoFixa.setUltimoMes(switchFinalizar.isChecked());
 				break;
 
 			case PARCELADA:
 				MovimentacaoParcelada movimentacaoParcelada = (MovimentacaoParcelada) movimentacao;
-				movimentacaoParcelada.setValorTotal(Util.toBigDecimal(txtValor.getText().toString()));
+				movimentacaoParcelada.setValorTotal(InterfaceUtils.toBigDecimal(txtValor.getText().toString()));
 				movimentacaoParcelada.setTotalParcelas(Integer.parseInt(txtTotalParcelas.getText().toString()));
 				movimentacaoParcelada.setParcelaCorrente(Integer.parseInt(txtParcelaCorrente.getText().toString()));
 				break;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
-import br.com.uniriotec.controlefinanceiro.util.Util;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 
 /**
  * Classe que representa uma movimentação que sua quitação (em caso de dívida) ou recebimento (em caso de crédito)
@@ -34,7 +34,7 @@ public class MovimentacaoParcelada extends Movimentacao implements Serializable 
 	}
 
 	public String getTotalParcelasDescr() {
-		return Util.obterDescricaoValor(totalParcelas);
+		return InterfaceUtils.obterDescricaoValor(totalParcelas);
 	}
 
 	public void setTotalParcelas(Integer totalParcelas) {
@@ -46,7 +46,7 @@ public class MovimentacaoParcelada extends Movimentacao implements Serializable 
 	}
 
 	public String getParcelaCorrenteDescr() {
-		return Util.obterDescricaoValor(parcelaCorrente);
+		return InterfaceUtils.obterDescricaoValor(parcelaCorrente);
 	}
 
 	public void setParcelaCorrente(Integer parcelaCorrente) {

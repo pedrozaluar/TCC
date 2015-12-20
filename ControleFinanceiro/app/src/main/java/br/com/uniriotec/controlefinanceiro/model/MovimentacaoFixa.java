@@ -3,7 +3,7 @@ package br.com.uniriotec.controlefinanceiro.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import br.com.uniriotec.controlefinanceiro.util.Util;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 
 /**
  * Classe que representa uma movimentação que é mensal, ou seja, Todo mês o usuário faz aquela mesma
@@ -20,7 +20,7 @@ public class MovimentacaoFixa extends Movimentacao implements Serializable {
 	}
 
 	public String getValorDescr() {
-		return Util.obterDescricaoValor(valor);
+		return InterfaceUtils.obterDescricaoValor(valor);
 	}
 
 	public void setValor(BigDecimal valor) {

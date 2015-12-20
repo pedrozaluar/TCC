@@ -8,21 +8,23 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import br.com.uniriotec.controlefinanceiro.R;
 import br.com.uniriotec.controlefinanceiro.customComponent.MovimentacaoAdapter;
-import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDao;
-import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDaoMemory;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacaoDao;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacaoDaoMemory;
 import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
 import br.com.uniriotec.controlefinanceiro.model.Movimentacao;
 import br.com.uniriotec.controlefinanceiro.model.MovimentacaoVariavel;
-import br.com.uniriotec.controlefinanceiro.model.MovimentacoesDoMes;
+import br.com.uniriotec.controlefinanceiro.model.MesDeMovimentacoes;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 
 public class ApresentaMesActivity extends Activity {
 
-	private MovimentacoesDoMesDao movimentacoesDoMesDao;
-	private MovimentacoesDoMes mesMovimentacoes;
+	private MovimentacaoDao movimentacaoDao;
+	private MesDeMovimentacoes mesDeMovimentacoes;
 	private MovimentacaoAdapter adapterListaMovimentacoes;
 
 	@Override
@@ -30,24 +32,34 @@ public class ApresentaMesActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apresenta_mes);
 
-		movimentacoesDoMesDao = new MovimentacoesDoMesDaoMemory();
+		movimentacaoDao = new MovimentacaoDaoMemory();
 
-		mesMovimentacoes = (MovimentacoesDoMes) getIntent().getSerializableExtra(Constantes.PARAM_MES_MOVIMENTACAO);
+		mesDeMovimentacoes = (MesDeMovimentacoes) getIntent().getSerializableExtra(Constantes.PARAM_MES_MOVIMENTACAO);
 		TextView labelTitulo = (TextView) findViewById(R.id.labelTitulo);
-		labelTitulo.setText(mesMovimentacoes.toString());
+		labelTitulo.setText(mesDeMovimentacoes.toString());
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		if (adapterListaMovimentacoes == null) {
-			carregarListaMovimentacoes(mesMovimentacoes.getMovimentacoes());
+			carregarListaMovimentacoes(mesDeMovimentacoes.getMovimentacoes());
 		} else {
-			List<Movimentacao> movimentacoes = movimentacoesDoMesDao.obterMovimentacoesDoMes(mesMovimentacoes.getMesAno());
-			mesMovimentacoes.getMovimentacoes().clear();
-			mesMovimentacoes.getMovimentacoes().addAll(movimentacoes);
+			List<Movimentacao> movimentacoes = movimentacaoDao.obterMovimentacoesDoMes(mesDeMovimentacoes.getMesAno());
+			mesDeMovimentacoes.getMovimentacoes().clear();
+			mesDeMovimentacoes.getMovimentacoes().addAll(movimentacoes);
 			adapterListaMovimentacoes.notifyDataSetChanged();
 		}
+		carregarValorTotalMovimentacoes();
+	}
+
+	private void carregarValorTotalMovimentacoes() {
+		BigDecimal valorTotalMovimentacoes = mesDeMovimentacoes.obterValorTotalMovimentacoes();
+		boolean isPositivo = valorTotalMovimentacoes.compareTo(BigDecimal.ZERO) > 0;
+
+		TextView labelValorTotal = (TextView) findViewById(R.id.labelValorTotal);
+		labelValorTotal.setText(InterfaceUtils.obterDescricaoValor(valorTotalMovimentacoes));
+		labelValorTotal.setTextColor(getResources().getColor(InterfaceUtils.obterIdCorDoCampoValor(isPositivo, true)));
 	}
 
 	private void carregarListaMovimentacoes(List<Movimentacao> movimentacoes) {
@@ -80,7 +92,7 @@ public class ApresentaMesActivity extends Activity {
 
 	private void chamarTelaCadastroMovimentacao(Movimentacao movimentacao) {
 		Intent intent = new Intent(this, CadastraMovimentoActivity.class);
-		intent.putExtra(Constantes.PARAM_ID_MES_MOVIMENTACOES, mesMovimentacoes.getId());
+		intent.putExtra(Constantes.PARAM_ID_MES_MOVIMENTACOES, mesDeMovimentacoes.getId());
 		intent.putExtra(Constantes.PARAM_MOVIMENTACAO, movimentacao);
 		startActivity(intent);
 	}

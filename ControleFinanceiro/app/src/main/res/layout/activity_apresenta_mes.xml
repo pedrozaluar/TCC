@@ -9,6 +9,7 @@
 			  android:orientation="vertical"
 			  tools:context="br.com.uniriotec.controlefinanceiro.activity.ApresentaMesActivity" >
 
+	<!-- *********************** TITULO *********************** -->
 	<TextView
 		android:text="Movimentações de:"
 		android:layout_width="match_parent"
@@ -25,88 +26,8 @@
 		android:textStyle="bold"
 		android:gravity="center_horizontal"
 		android:layout_marginBottom="40dp" />
-<!--
-	<TableLayout
-		android:layout_width="match_parent"
-		android:layout_height="300dp"
-		android:padding="5dp">
 
-		<TableRow>
-			<TextView
-				android:layout_weight="1"
-				android:textStyle="bold"
-				android:background="#0FB7FF"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:gravity="center"
-				android:text="Dia:"/>
-			<TextView
-				android:layout_weight="6"
-				android:textStyle="bold"
-				android:background="#0FB7FF"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:text="Descrição:" />
-			<TextView
-				android:layout_weight="3"
-				android:textStyle="bold"
-				android:background="#0FB7FF"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:gravity="center"
-				android:text="Valor:" />
-		</TableRow>
-
-		<TableRow>
-			<TextView
-				android:layout_weight="1"
-				android:background="#D0EAFD"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:gravity="center"
-				android:text="05"/>
-			<TextView
-				android:layout_weight="6"
-				android:background="#D0EAFD"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:text="Salário" />
-			<TextView
-				android:layout_weight="3"
-				android:background="#D0EAFD"
-				android:textColor="#179735"
-				android:textStyle="bold"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:gravity="right"
-				android:text="R$ +1000,00" />
-		</TableRow>
-
-		<TableRow>
-			<TextView
-				android:layout_weight="1"
-				android:background="#D0EAFD"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:gravity="center"
-				android:text="08"/>
-			<TextView
-				android:layout_weight="6"
-				android:background="#D0EAFD"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:text="Lanche" />
-			<TextView
-				android:layout_weight="3"
-				android:background="#D0EAFD"
-				android:textColor="#F00"
-				android:layout_margin="2dp"
-				android:padding="3dp"
-				android:gravity="right"
-				android:text="R$ -18,30" />
-		</TableRow>
-	</TableLayout>
--->
+	<!-- *********************** TABELA DE MOVIMENTAÇÕES *********************** -->
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -145,10 +66,34 @@
 		android:layout_width="match_parent"
 		android:layout_height="250dp"></ListView>
 
+	<!-- *********************** TOTAL *********************** -->
+	<LinearLayout
+		android:layout_marginTop="10dp"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center">
+
+		<TextView
+			android:layout_width="70dp"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:text="TOTAL:"/>
+
+		<TextView
+			android:id="@+id/labelValorTotal"
+			android:layout_width="70dp"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"/>
+
+	</LinearLayout>
+
+	<!-- *********************** BOTÕES *********************** -->
 	<LinearLayout
 		android:layout_marginTop="20dp"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
 
 		<Button
 			android:layout_width="wrap_content"

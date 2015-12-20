@@ -3,7 +3,7 @@ package br.com.uniriotec.controlefinanceiro.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import br.com.uniriotec.controlefinanceiro.util.Util;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 
 /**
  * Classe abstrata que representa uma movimentação (genérica)
@@ -21,6 +21,8 @@ public abstract class Movimentacao implements Serializable, Comparable {
 		this.efetuada = true;
 	}
 
+	public abstract BigDecimal getValor();
+
 	public Integer getId() {
 		return id;
 	}
@@ -29,14 +31,12 @@ public abstract class Movimentacao implements Serializable, Comparable {
 		this.id = id;
 	}
 
-	public abstract BigDecimal getValor();
-
 	public String getValorDescr() {
-		return Util.obterDescricaoValor(getValor());
+		return InterfaceUtils.obterDescricaoValor(getValor());
 	}
 
 	public String getValorEdicao() {
-		return Util.obterDescricaoValorEdicao(getValor());
+		return InterfaceUtils.obterDescricaoValorEdicao(getValor());
 	}
 
 	public Integer getDia() {
@@ -44,7 +44,7 @@ public abstract class Movimentacao implements Serializable, Comparable {
 	}
 
 	public String getDiaDescr() {
-		return Util.obterDescricaoValor(dia);
+		return InterfaceUtils.obterDescricaoValor(dia);
 	}
 
 	public void setDia(Integer dia) {

@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.uniriotec.controlefinanceiro.R;
 import br.com.uniriotec.controlefinanceiro.model.Movimentacao;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 
 /**
  * Created by PedroLZ on 14/12/2015.
@@ -48,26 +49,10 @@ public class MovimentacaoAdapter extends ArrayAdapter<Movimentacao>{
 			txtDia.setText(movimentacao.getDiaDescr());
 			txtDescricao.setText(movimentacao.getDescricao());
 			txtValor.setText(movimentacao.getValorDescr());
-			int corDoCampoValor = getContext().getResources().getColor(obterIdCorDoCampoValor(movimentacao));
+			int corDoCampoValor = getContext().getResources().getColor(InterfaceUtils.obterIdCorDoCampoValor(movimentacao));
 			txtValor.setTextColor(corDoCampoValor);
 		}
 
 		return linha;
-	}
-
-	private int obterIdCorDoCampoValor(Movimentacao movimentacao) {
-		if (movimentacao.isValorPositivo()) {
-			if (movimentacao.isEfetuada()) {
-				return R.color.cor_valor_positivo_efetuado;
-			} else {
-				return R.color.cor_valor_positivo_nao_efetuado;
-			}
-		} else {
-			if (movimentacao.isEfetuada()) {
-				return R.color.cor_valor_negativo_efetuado;
-			} else {
-				return R.color.cor_valor_negativo_nao_efetuado;
-			}
-		}
 	}
 }

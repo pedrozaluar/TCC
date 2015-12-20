@@ -3,7 +3,7 @@ package br.com.uniriotec.controlefinanceiro.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import br.com.uniriotec.controlefinanceiro.util.Util;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 
 /**
  * Classe que representa uma movimentação simples e única. Ex: um lanche, cinema, roupa comprada.
@@ -31,7 +31,7 @@ public class MovimentacaoVariavel extends Movimentacao implements Serializable {
 	}
 
 	public String getValorDescr() {
-		return Util.obterDescricaoValor(valor);
+		return InterfaceUtils.obterDescricaoValor(valor);
 	}
 
 	public void setValor(BigDecimal valor) {

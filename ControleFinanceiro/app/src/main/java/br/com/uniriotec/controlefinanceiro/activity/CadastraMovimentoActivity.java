@@ -13,20 +13,24 @@ import android.widget.TextView;
 
 import br.com.uniriotec.controlefinanceiro.R;
 import br.com.uniriotec.controlefinanceiro.activity.helper.FormularioMovimentacaoHelper;
-import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDao;
-import br.com.uniriotec.controlefinanceiro.dao.MovimentacoesDoMesDaoMemory;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacaoDao;
+import br.com.uniriotec.controlefinanceiro.dao.MovimentacaoDaoMemory;
 import br.com.uniriotec.controlefinanceiro.fixo.Constantes;
 import br.com.uniriotec.controlefinanceiro.fixo.TipoDeMovimentacao;
 import br.com.uniriotec.controlefinanceiro.model.Movimentacao;
+import br.com.uniriotec.controlefinanceiro.model.MovimentacaoFixa;
+import br.com.uniriotec.controlefinanceiro.model.MovimentacaoParcelada;
+import br.com.uniriotec.controlefinanceiro.model.MovimentacaoVariavel;
+import br.com.uniriotec.controlefinanceiro.util.InterfaceUtils;
 
 public class CadastraMovimentoActivity extends Activity {
 
 	private Movimentacao movimentacao;
-	private MovimentacoesDoMesDao movimentacoesDoMesDao;
+	private MovimentacaoDao movimentacaoDao;
 	private FormularioMovimentacaoHelper formularioHelper;
 
 	public CadastraMovimentoActivity() {
-		movimentacoesDoMesDao = new MovimentacoesDoMesDaoMemory();
+		movimentacaoDao = new MovimentacaoDaoMemory();
 	}
 
 	@Override
@@ -40,28 +44,27 @@ public class CadastraMovimentoActivity extends Activity {
 	}
 
 	private void carregarTela() {
-		mudarLayoutCreditoOuDebito(movimentacao.isValorPositivo());
+		mudarLayoutCreditoOuDebito();
 		carregarSeletorTipoDeMovimentacao();
 		formularioHelper.colocaNoFormulario(movimentacao);
 	}
 
-	private void mudarLayoutCreditoOuDebito(boolean isCredito) {
+	private void mudarLayoutCreditoOuDebito() {
 		TextView labelTitulo = (TextView) findViewById(R.id.labelTitulo);
 		Switch switchEfetuada = (Switch) findViewById(R.id.switchEfetuada);
 		EditText txtValor = (EditText) findViewById(R.id.txtValor);
+		txtValor.setTextColor(getResources().getColor(InterfaceUtils.obterIdCorDoCampoValor(movimentacao)));
+//		OU: Color.parseColor("#008000")
 
-		if (isCredito) {
+		if (movimentacao.isValorPositivo()) {
 			labelTitulo.setText("Novo Crédito");
-			switchEfetuada.setText("Recebido");
 			labelTitulo.setTextColor(getResources().getColor(R.color.cor_credito));
-			txtValor.setTextColor(getResources().getColor(R.color.cor_credito));
-//			OU: Color.parseColor("#008000")
+			switchEfetuada.setText("Recebido");
 
 		} else {
 			labelTitulo.setText("Novo Débito");
-			switchEfetuada.setText("Pago");
 			labelTitulo.setTextColor(getResources().getColor(R.color.cor_debito));
-			txtValor.setTextColor(getResources().getColor(R.color.cor_debito));
+			switchEfetuada.setText("Pago");
 		}
 	}
 
@@ -70,6 +73,7 @@ public class CadastraMovimentoActivity extends Activity {
 		ArrayAdapter<TipoDeMovimentacao> adapter = new ArrayAdapter<TipoDeMovimentacao>(this, android.R.layout.simple_spinner_item, TipoDeMovimentacao.values());
 		Spinner seletorTipoDeMovimentacao = (Spinner) findViewById(R.id.seletorTipoDeMovimentacao);
 		seletorTipoDeMovimentacao.setAdapter(adapter);
+		seletorTipoDeMovimentacao.setSelection(adapter.getPosition(TipoDeMovimentacao.obterPelaMovimentacao(movimentacao)));
 
 		// Definindo método que será chamado ao selecionar um item
 		seletorTipoDeMovimentacao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -83,16 +87,28 @@ public class CadastraMovimentoActivity extends Activity {
 		});
 	}
 
-	private void onSelectTipoDeMovimentacao(TipoDeMovimentacao tipoDeMovimentacao) {
+	private void onSelectTipoDeMovimentacao(TipoDeMovimentacao tipoDeMovimentacaoSelecionado) {
+
+		adaptarObjetoMovimentacaoAoTipoSelecionado(tipoDeMovimentacaoSelecionado);
 
 		mostrarElementosComATag(R.string.tag_movimentacao_fixa, false);
 		mostrarElementosComATag(R.string.tag_movimentacao_parcelada, false);
 
-		if (tipoDeMovimentacao == TipoDeMovimentacao.FIXA) {
+		if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.FIXA) {
 			mostrarElementosComATag(R.string.tag_movimentacao_fixa, true);
 		}
-		if (tipoDeMovimentacao == TipoDeMovimentacao.PARCELADA) {
+		if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.PARCELADA) {
 			mostrarElementosComATag(R.string.tag_movimentacao_parcelada, true);
+		}
+	}
+
+	private void adaptarObjetoMovimentacaoAoTipoSelecionado(TipoDeMovimentacao tipoDeMovimentacaoSelecionado) {
+		if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.VARIAVEL) {
+			movimentacao = new MovimentacaoVariavel();
+		} else if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.FIXA) {
+			movimentacao = new MovimentacaoFixa();
+		} else if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.PARCELADA) {
+			movimentacao = new MovimentacaoParcelada();
 		}
 	}
 
@@ -127,9 +143,9 @@ public class CadastraMovimentoActivity extends Activity {
 			int idMesMovimentacoes = getIntent().getIntExtra(Constantes.PARAM_ID_MES_MOVIMENTACOES, 0);
 
 			if (movimentacao.getId() == null) {
-				movimentacoesDoMesDao.inserirMovimentacao(idMesMovimentacoes, movimentacao);
+				movimentacaoDao.inserirMovimentacao(idMesMovimentacoes, movimentacao);
 			} else {
-				movimentacoesDoMesDao.alterarMovimentacao(movimentacao);
+				movimentacaoDao.alterarMovimentacao(movimentacao);
 			}
 			finish();
 		}
