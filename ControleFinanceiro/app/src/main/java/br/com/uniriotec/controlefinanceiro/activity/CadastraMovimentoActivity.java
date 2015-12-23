@@ -103,6 +103,7 @@ public class CadastraMovimentoActivity extends Activity {
 	}
 
 	private void adaptarObjetoMovimentacaoAoTipoSelecionado(TipoDeMovimentacao tipoDeMovimentacaoSelecionado) {
+		Movimentacao movimentacaoTemp = movimentacao;
 		if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.VARIAVEL) {
 			movimentacao = new MovimentacaoVariavel();
 		} else if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.FIXA) {
@@ -110,6 +111,8 @@ public class CadastraMovimentoActivity extends Activity {
 		} else if (tipoDeMovimentacaoSelecionado == TipoDeMovimentacao.PARCELADA) {
 			movimentacao = new MovimentacaoParcelada();
 		}
+		movimentacao.setId(movimentacaoTemp.getId());
+		movimentacao.setValorPositivo(movimentacaoTemp.isValorPositivo());
 	}
 
 	private void mostrarElementosComATag(int codigoTag, boolean mostrar) {

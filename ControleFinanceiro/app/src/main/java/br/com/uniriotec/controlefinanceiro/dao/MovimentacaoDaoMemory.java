@@ -34,15 +34,18 @@ public class MovimentacaoDaoMemory implements MovimentacaoDao {
 	public void criarMesDeMovimentacoes(MesAno mesAno) {
 		MesDeMovimentacoes mesDeMovimentacoes = new MesDeMovimentacoes(mesAno);
 
-/*		todo: Adicionar preenchimento inicial para teste
-*/
-		List<Movimentacao> movimentacoes = new ArrayList<Movimentacao>();
-		movimentacoes.add(new MovimentacaoVariavel(20, 1, "Salário", new BigDecimal("1000.00"), true));
-		movimentacoes.add(new MovimentacaoVariavel(21, 3, "Lanche (Hamburguer)", new BigDecimal("20.00"), false));
-		movimentacoes.add(new MovimentacaoVariavel(22, 3, "Almoço", new BigDecimal("15.00"), false));
-		movimentacoes.add(new MovimentacaoVariavel(23, 11, "Sorvete", new BigDecimal("5.00"), false));
-		movimentacoes.add(new MovimentacaoVariavel(24, 23, "Compra", new BigDecimal("100.00"), false));
-		mesDeMovimentacoes.setMovimentacoes(movimentacoes);
+/*		todo: Adicionando preenchimento inicial para teste
+*/		if (idUltimaMovimentacao == 0) {
+			List<Movimentacao> movimentacoes = new ArrayList<Movimentacao>();
+			movimentacoes.add(new MovimentacaoVariavel(1, 1, "Salário", new BigDecimal("1000.00"), true));
+			movimentacoes.add(new MovimentacaoVariavel(2, 3, "Lanche (Hamburguer)", new BigDecimal("20.00"), false));
+			movimentacoes.add(new MovimentacaoVariavel(3, 3, "Almoço", new BigDecimal("15.00"), false));
+			movimentacoes.add(new MovimentacaoVariavel(4, 11, "Sorvete", new BigDecimal("5.00"), false));
+			movimentacoes.add(new MovimentacaoVariavel(5, 23, "Compra", new BigDecimal("100.00"), false));
+			idUltimaMovimentacao = 5;
+
+			mesDeMovimentacoes.setMovimentacoes(movimentacoes);
+		}
 
 		mesesDeMovimentacoes.add(0, mesDeMovimentacoes);
 	}

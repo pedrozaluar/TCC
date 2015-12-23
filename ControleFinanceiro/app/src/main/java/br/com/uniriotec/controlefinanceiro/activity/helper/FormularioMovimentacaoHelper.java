@@ -106,7 +106,7 @@ public class FormularioMovimentacaoHelper {
 //		int parcelaCorrente = Integer.parseInt(txtParcelaCorrente.getText().toString());
 //		int totalParcelas = Integer.parseInt(txtTotalParcelas.getText().toString());
 
-		MensagemUtils.mostrarMensagemRapida(activity, "Falta implementar validação dos campos");
+//		MensagemUtils.mostrarMensagemRapida(activity, "Falta implementar validação dos campos");
 		return true;
 	}
 }
